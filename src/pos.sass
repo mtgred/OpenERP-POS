@@ -1,0 +1,719 @@
+// Mixins
+@mixin vertical-gradient($startColor: #555, $endColor: #333)
+  background: $endColor
+  background: -moz-linear-gradient($startColor, $endColor)
+  background: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor))
+
+@mixin radius($radius: 5px)
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+  border-radius: $radius
+
+@mixin box-shadow($bsval: 0px 0px 0.83em #333, $due: 0 0 0 transparent)
+  -moz-box-shadow: $bsval, $due
+  -webkit-box-shadow: $bsval, $due
+  -box-shadow: $bsval, $due
+
+// Point of Sale
+body
+  padding: 0
+  margin: 0
+  border: 0
+  height: 100%
+  max-height: 100%
+  background-color: #f0eeee
+  font-family:  "Lucida Grande", Helvetica, Verdana, Arial
+  font-size: 12px
+  overflow: hidden
+  
+button
+  display: inline-block
+  cursor: pointer
+  padding: 2px 15px
+  color: black
+  border:  solid 1px black
+  @include radius(4px)
+  @include vertical-gradient(#b2b3d7, #7f82ac)
+
+#container 
+  width: 100%
+  height: 100%
+  
+header 
+  width: 100%
+  //height: 10%
+  height: 54px
+  color: gray
+  border-top: solid 1px #d3d3d3
+  border-bottom: solid 1px black
+  @include vertical-gradient(#7b7979, #393939)
+  
+#branding, #rightheader
+  padding: 10px 14px
+  
+#branding 
+  float: left
+  border-right: 1px solid  #373737
+  text-align: center
+  img
+    height: 32px
+    width: 118px
+
+#steps 
+  float: left
+  padding: 10px 19px
+  border-right: solid 1px #3b3b3b
+  vertical-align: top
+  label
+    background-color: ''
+    background-image: url('../img/steps-bg.png')
+    border-bottom: solid 1px #5c5c5c
+    border-top: solid 1px #373737
+    padding: 0 8px
+    vertical-align: top
+    &:first-child
+      border-left: solid 1px #373737
+      border-right: 0
+    &:last-child
+      border-right: 1px
+      border-right: solid 1px #373737
+  span
+    padding: 2px 6px
+  img
+    height: 32px
+  .ui-button, .ui-button-text-only 
+    height: 30px
+    margin: 0 -4px
+
+#rightheader 
+  float: left
+
+#orderstack, #neworder-button
+  //margin-left: 10px
+  //float: left
+
+#neworder-button
+  width: 35px
+  padding: 1px
+  font-size: 23px
+
+#close-button 
+  cursor: pointer 
+  vertical-align: center
+  
+.selectedorder, .selectedorder.ui-state-hover.ui-state-active, .selectedorder.ui-state-hover 
+  margin-left: 3px
+  color: white
+  vertical-align: top
+  border:  solid 1px black
+  border-top-color: #4f4e4e
+  @include vertical-gradient(#767676, #3e3e3e)
+  
+.unselectedorder, .unselectedorder.ui-state-hover.ui-state-active, .unselectedorder.ui-state-hover 
+  margin-left: 3px
+  vertical-align: top
+  background-color: #2e2e2e
+  color:  #999999
+  border:  solid 1px black
+  
+#loggedas
+  float: right  
+  padding: 6px 14px
+  text-align: center
+  color: white
+  border-left: 1px solid  #373737
+  p
+    margin: 2px
+  
+#leftpane 
+  float: left
+  width: 450px
+  height: 90%
+  border-right: solid 1px #afafb6
+  
+#rightpane 
+  float: right
+  height: 90%
+
+#selectable .ui-selecting
+  background: #9d9fc5 
+
+#selectable .ui-selected
+  background: #7f82ac 
+  color: white 
+
+#selectable
+  list-style-type: none
+
+#selectable li
+  margin: 3px
+  padding: 1px 
+  float: left
+  width: 90px
+  height: 100px
+  font-size: 1em
+  text-align: center 
+
+#selectable li.ui-state-masked
+  background-color: #f0eeee
+  border: solid 1px #f0eeee
+
+#breadcrumbs, #menu, #payheader
+  vertical-align: top
+  padding: 5px 0px 5px 5px
+  border-bottom:  solid 1px #d8d8d8
+  border-left:  solid 1px #d8d8d8
+  color: #666666
+  @include vertical-gradient(#fff, #eee)
+  
+#breadcrumbs 
+  padding-left: 8px 
+
+#menu 
+  height: auto
+  
+#searchzone 
+  padding: 5px 10px
+  vertical-align: middle
+  color: #666666
+  border-bottom: solid 1px #cecbcb
+  @include vertical-gradient(#fff, #eee)
+
+#searchimg, #backspaceimg 
+  vertical-align: middle
+  width: 14px
+  height: 14px
+  padding: 0px
+  margin: 0px
+  border: 0px
+  margin-right: -5px
+  
+#searchimg 
+  margin-top: 2px
+  
+#backspaceimg 
+  display: none
+  
+#keyboard
+  vertical-align: middle
+  @include radius(10px)
+  margin-left: 10px
+  width: 88%
+  height: 20px
+  border: solid 1px #cecbcb
+  border-left: 0px
+  border-right: 0px
+  
+#iconlist
+  padding: 10px 0px 0px 7px
+  background-color: #f0eeee
+  overflow: hidden
+  
+#receipt 
+  max-height: 60%
+  
+#grid 
+  border: 0px
+  margin: 0px
+  padding: 0px
+  
+#gridHeader 
+  width: 100%
+  @include box-shadow(inset 0 0 20px #cccccc)
+  background-image: url(../img/bc-bg-last.jpg)
+  font-size: 0.8em
+  padding: 4px 0px
+  color: #666666
+  
+#gridHeader td  
+  text-align: center
+  margin: 0px
+  padding: 0px
+  border-right: solid 1px #dfdfdf
+  text-indent: 0px
+  
+#gridHeader td span
+  font-size: 0.8em 
+  
+#gridHeader td:first-child  
+  text-align: left
+  
+#upscroll, #downscroll 
+  width: 30%
+  margin: 0px
+  padding: 0px 0px 0px 0px
+  border-top-color: #dadada
+  border-bottom: solid 1px #a0a0a0
+  border-right: 0px
+  @include vertical-gradient(#ededed, #ddd)
+  
+#upscroll .ui-button-icon-secondary 
+  margin-right: 2px
+  
+#downscroll ui-button-icon-secondary 
+  margin-left: 2px
+  
+#upscroll 
+  margin-left: 5px
+  
+#downscroll 
+  border-left: solid 1px #a0a0a0
+  margin-right: 10px
+  
+#amounts 
+  background-color:  white
+  border-bottom:  solid 1px #d2d2d2
+  border-top:  solid 1px #e9eaec
+  color: #a5a5a5
+  font-weight: bold
+  padding-top: 0.4em
+  padding-left: 10px
+  vertical-align: middle
+  
+#subtotal 
+  vertical-align: middle
+  float: left
+  font-size: 0.8em
+  width: 30%
+  text-align: left
+  margin-left: 0.2em
+  margin-top: 0.2em
+
+#subtotal-amount 
+  padding-left: 0.1em
+  color: #666666
+  
+#taxes 
+  vertical-align: middle
+  float: left
+  font-size: 0.8em
+  width: 30%
+  text-align: center
+  margin-top: 0.2em
+
+#taxes-amount 
+  padding-left: 0.1em
+  color: #666666
+  
+#total 
+  vertical-align: middle
+  margin-right: 0.2em
+  text-align: right
+  float: left
+  font-size: 0.8em
+  width: 38%
+
+#total-amount
+  vertical-align: middle
+  font-size: 1.4em
+  padding-left: 0.1em
+  color: #666666
+
+#pads, #paysummary 
+  margin: 0px
+  @include vertical-gradient(#e5e5e5, #d1d1d1)
+  
+#pads 
+  padding: 10px 10px 17px 10px
+  
+#paysummary
+  padding:  10px 10px 15px 10px
+  
+#numpad 
+  /*border:  solid 2px red*/
+  float: right
+  text-align: right
+  width: 50%
+
+.numpad 
+  vertical-align: top
+  width: 25%
+  font-size: 1em
+  font-weight: 600
+  color: #666666
+  border-top: solid 1px #cacaca
+  border-left: solid 1px #cacaca
+  @include vertical-gradient(#eee, #ebebeb)
+  
+.bolded 
+  font-size: 1.5em
+  font-weight: bold
+  
+.unbolded 
+  font-size: 0.8em
+  font-weight: 600
+  
+.numpad.ui-state-hover  
+  @include vertical-gradient(#9d9fc5, #7f82ac)
+  
+.numpad.selected, .numpad .selected  
+  @include vertical-gradient(#9d9fc5, #7f82ac)
+  
+.numpad.ui-state-hover > span 
+  color: #ffffff !important
+  
+.b-top-white 
+  border-top: solid 1px white
+
+#options 
+  width: 100%
+  height: 30%
+  
+#paypad 
+  float: left
+  text-align: left
+  width: 48%
+  /*border:  solid 2px red*/
+
+#paypad ul 
+  //margin: 0px
+  //padding: 0px
+  list-style-type: none
+  
+#paypad ul li button 
+  width: 100%
+  overflow: hidden
+  border: solid 1px #cacaca
+  border-top: 0px
+  color: #393939
+  text-align: left
+  @include vertical-gradient(#eee, #ebebeb)
+  
+#paypad ul li button.ui-state-hover
+  @include vertical-gradient(#9d9fc5, #7f82ac)
+  
+#paypad ul li button.ui-state-hover > span 
+  color: white !important
+  
+#paypad ul li button span 
+  font-size: 0.7em !important
+  font-weight: 700
+  padding-left: 10px
+  line-height: 1
+  overflow: hidden
+
+#othermethodslist 
+  position: absolute
+  top: 10px
+  left: 10px  
+
+.breadcrumbs-normal , .breadcrumbs-normal.ui-state-hover, .breadcrumbs-normal.ui-state-hover.ui-state-active 
+  vertical-align: top
+  margin: 0px -1px 0px 0px
+  font-size: 1em
+  border-top: solid 1px #ededed
+  border-bottom: solid 1px #b3b3b3
+  padding:  4px 8px
+  @include vertical-gradient(#eee, #ddd)
+  
+.breadcrumbs-first, .breadcrumbs-first.ui-state-active, .breadcrumbs-first.ui-state-hover 
+  font-size: 1em
+  border-right: 0px
+  margin-right: -6px
+  padding:  4px 8px
+  
+.breadcrumbs-last, .breadcrumbs-last.ui-state-hover, .breadcrumbs-last.ui-state-hover.ui-state-active 
+  font-size: 1em
+  background-image: url(../img/bc-bg-last.jpg)
+  vertical-align: top
+  border-top: solid 1px #c5c5c5
+  border-left: 0px
+  border-right: 0px
+  padding:  4px 8px
+  margin-top: 1px
+  
+.breadcrumbs-last span, img.red-dot 
+  float: left
+  
+img.bc-before-last, img.red-dot 
+  text-align: left
+  padding: 0px
+  margin: 0px
+  border: 0px
+  
+img.red-dot 
+  padding-top: 12px
+  
+#menu button, #menu button .ui-state-hover, #menu button .ui-state-hover.ui-state-active
+  border: 0px
+  margin: 2px 3px
+  font-size: 0.8em
+  width: 17%
+  text-align: left
+  border-top: solid 1px #ededed
+  border-bottom: solid 1px #b3b3b3
+  border-left: 0px
+  border-right: 0px
+  padding:  4px 8px
+  @include vertical-gradient(#eee, #ddd)
+  
+#menuPagerDown, #menuPagerUp 
+  width: 8% !important
+  
+#menuPagerDown 
+  border-right: solid 1px #dadada
+  
+.product 
+  background-color: #f0eeee
+  
+.product span
+  padding: 0px 0px 0px 0px !important
+  margin: 0px 0px 0px 0px !important
+  font-size: 0.7em
+  vertical-align: middle
+  
+.product img 
+  padding: 0px
+  margin: 0px
+  border: 0px
+  margin-bottom: -5px
+  border-bottom: solid 1px #eeeeee
+  
+.price2 
+  float: right
+  border: 0px !important
+  
+.price 
+  background-color: #dedcdc
+  float: right
+  font-size: 0.6em
+  padding: 2px 4px
+  margin: 0px
+  
+#pagers 
+  width: 100%
+  vertical-align: bottom
+  /*border:  solid 2px red !important*/
+  margin-left: 4px !important
+  margin-top: 2px !important
+  padding-top: 9px !important
+  
+#pagers>span 
+  font-size: 0.8em !important
+  font-color: #666 !important
+  padding-bottom: 5px !important  
+  
+#pagerRight, #pagerLeft 
+  @include vertical-gradient(#eee, #ddd)
+  margin: 5px 0px 0px 0px
+  padding: 0px 0px 30px 0px
+  font-size: 0.7em
+  border: 1px solid #a7a7a7
+  height: 70px
+  
+#pagerLeft 
+  border-right: 0px
+  
+#payheader 
+  font-size: 1.3em
+  font-weight: bold
+  text-align: left
+  
+payheader div 
+  padding-top: 10px
+
+#payadd 
+  height: 100%
+  border-bottom: solid 1px #d2d2d2
+  overflow: auto
+  
+.payinput 
+  vertical-align: middle
+  width: 70%
+  font-size: 1.2em
+  border: 0px
+  border-top: solid 2px #e4e4e4
+  border-right: solid 2px #dcdcdc
+  margin-bottom: 5px
+  text-align: right
+  color: #858585
+  
+#paysummary table, #payadd table, #payheader div, #ticket, #receiptbuttons 
+  text-align: left
+  width: 400px
+  margin-left: auto
+  margin-right: auto
+  
+.paylineamount, .closepayline
+  //margin: 0px
+  @include vertical-gradient(#eee, #ddd)
+  border: solid 1px #cacaca
+  border-bottom: solid 1px #a8a7a7
+  vertical-align: middle
+  color: #858585
+  
+.paylineamount 
+  padding: 5px
+  margin-top: 2px
+  min-width: 100px
+  
+.closepayline 
+  padding: 4px 0px 4px 0px
+   
+.closepayline span 
+  padding: 2px
+  margin: 0px
+  
+.leftcell 
+  width: 50%
+  text-align: left
+  color: #8a8a8a
+  font-size: 1em
+  
+.rightcell 
+  width: 50%
+  text-align: right
+  color: #444444
+  font-size: 1.3em
+  font-weight: bold
+  vertical-align: 50%
+  
+.line 
+  margin-top: 5px
+  margin-bottom: 5px
+  width: 100%
+  height: 1px
+  border-top: #c3c3c3
+  border-bottom: #e6e6e6
+  
+
+#payback, #receiptback 
+  width: 100%
+  border: solid 1px #cacaca
+  @include vertical-gradient(#eee, #ddd)
+  
+#payback span, #receiptback span 
+  padding: 6px
+  
+#payvalidate, #receiptvalidate 
+  width: 100%
+  font-size: 0.8em
+  border: solid 1px #72759a
+  @include vertical-gradient(#9fa1c7, #8184ae)
+  
+#payvalidate span.ui-button-text , #receiptvalidate span.ui-button-text
+  padding: 6px 4px 6px 20px
+  color: white !important
+  
+#receiptbuttons 
+  margin-top: 20px
+  
+#receiptvalidate, #receiptback 
+  font-size: 2em
+  width: 50%
+  padding: 6px 4px
+
+#printableReceipt 
+  width: 100%
+  font-size: 0.5em
+  font-weight: 500
+  color: black
+  overflow: auto
+
+#ticket 
+  vertical-align: middle
+  padding: 20px
+  min-height: 50%
+  text-align: center
+  background-color: white
+  
+#ticketheader, #ticketfooter, .ticket-product-price
+  text-align: right
+  
+#ticketlist 
+  width: 100%
+  padding:  20px 10px
+  
+.ticket-product-name, .ticket-product-price 
+  width: 50%
+  line-height: 1
+  
+.ticket-product-name 
+  text-align: left
+
+#DEBUG 
+  position: absolute
+  bottom: 15px
+  left: 15px
+  width: 500px
+  height: 200px
+  background-color: white
+  border: 1px solid black
+  overflow: auto
+  display: none
+
+.none 
+  display: none
+  
+.dialog 
+  text-align: center
+
+.confirm, .cancel 
+  padding: 2px 10px
+  
+.ui.keyboard-button 
+  margin: 2px
+  
+.ui-keyboard-button.ui-state-default 
+  color: #666666
+  border-bottom: solid 1px #666666
+  @include vertical-gradient(#eee, #d3d3d3)
+
+.ui-keyboard-button.ui-state-hover, .ui-keyboard-button .ui-state-hover  
+  color: white
+  @include vertical-gradient(#9d9fc5, #7f82ac)
+
+/* DHTMLX GRID CHANGES */
+.objbox 
+  overflow: hidden !important
+  overflow-y: hidden
+
+.row20px tr td 
+  padding-right: 0px !important
+  padding-left: 0px !important
+
+.row20px tr td:first-child 
+  padding-left: 7px !important
+
+.row20px tr td:last-child 
+  padding-right: 7px !important
+
+/* KEYBOARD CHANGES */
+.ui-keyboard 
+  width: 800px
+  height: 350px
+
+.ui-keyboard-button 
+  width: 76px
+  height: 76px
+  margin: 2px
+
+.ui-keyboard-button 
+  width: 152px
+  height: 76px
+
+.ui-keyboard-cancel 
+  width: 196px
+  height: 76px
+
+.ui-keyboard-space 
+  width: 396px
+  height: 76px
+
+.ui-keyboard-accept 
+  width: 196px
+  height: 76px
+
+.ui-keyboard-row 
+  text-align: center
+  
+//.ui-state-default .payvalidateimg 
+  //background-image:  url(../img/validate-icon.png) 
+  //background-position: 0px 0px
+  
+//.cdbrimg 
+  //background-image:  url(../img/cdbr.png)  
+  
+//.ui-state-hover .cdbrimg, .ui-state-active .cdbrimg, .selected .cdbrimg 
+  //color: white
+  //background-image:  url(../img/cdbr-over.png) !important  
