@@ -1,6 +1,6 @@
 {spawn, exec} = require 'child_process'
 
-task 'assets:watch', 'Watch source files and build JS & CSS', (options) ->
+task 'watch', 'Watch source files and build JS & CSS', (options) ->
   runCommand = (name, args...) ->
     proc =           spawn name, args
     proc.stderr.on   'data', (buffer) -> console.log buffer.toString()

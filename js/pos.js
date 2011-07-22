@@ -1,6 +1,5 @@
 (function() {
   $(function() {
-    $('#steps').buttonset();
-    return $('#steps label').removeClass('ui-state-default');
+    return $('#steps').buttonset();
   });
 }).call(this);
