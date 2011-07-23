@@ -13,7 +13,7 @@
   <script src="js/pos.js"></script>
 </head>
 <body>
-  <header>
+  <header id="topheader">
     <div id="branding"><img src="img/logo.png" /></div>
     <div id='steps'>
       <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">Products</label>
@@ -27,78 +27,100 @@
       <button id="neworder-button">+</button>
     </div>
     <div id='loggedas'>
-      <p>Fabien Pinckaers</p>
+      <p>Minh Tran</p>
       <button>Logout</button>
     </div>  
   </header>
+  <content>
 
-  <div id='leftpane'>
-    <content>
-      <table id='receipt'>
-        <!--<tr><td><button id="upscroll"></button><button id="downscroll"></button></td>-->
-        <thead>
-          <tr>
-            <td></td>
-            <td>Price</td>
-            <td>Qty</td>
-            <td>Total</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Seagate 120GB</td>
-            <td>75 &euro;</td>
-            <td>2</td>
-            <td>150 &euro;</td>
-          </tr>
-          <tr class="selected">
-            <td>AMD Athlon XP 2200+</td>
-            <td>180 &euro;</td>
-            <td>1</td>
-            <td>180 &euro;</td>
-          </tr>
-          <tr>
-            <td>Foobar</td>
-            <td>1800 &euro;</td>
-            <td>10</td>
-            <td>18000 &euro;</td>
-          </tr>
-        </tbody>
-      </table>
-    </content>
-    <footer>
-      <ul id='amounts'>
-        <li> Subtotal: <span id='subtotal' class="amount">0 &euro;</span></li>
-        <li> Taxes: <span id='taxes' class="amount">0 &euro;</span></li>
-        <li> Total: <span id='total' class="amount">0 &euro;</span></li>
-      </ul>
-      <ul id='paypad'>
-      </ul>
-      <div class='numpad'>
-        <!--<button id="numpad-qty" class="numpad">Qty</button><br />-->
-        <!--<button id="numpad-disc" class="numpad">Disc</button><br />-->
-        <!--<button id="numpad-price" class="numpad">Price</button><br />-->
-        <!--<button id="numpad-codebar" class="numpad selected"></button><br />-->
-        <!--<button id='numpad-note' class="numpad">Note</button>-->
-        <!--<button id='numpad-minus' class="numpad">+/-</button>-->
-        <!--<button id='numpad-clear' class="numpad">Clear</button>-->
-        <button id='numpad-1'>1</button>
-        <button id='numpad-2'>2</button>
-        <button id='numpad-3'>3</button><br>
-        <button id='numpad-4'>4</button>
-        <button id='numpad-5'>5</button>
-        <button id='numpad-6'>6</button><br>
-        <button id='numpad-7'>7</button>
-        <button id='numpad-8'>8</button>
-        <button id='numpad-9'>9</button><br>
-        <button id='numpad-0'>0</button>
-        <button id='numpad-coma'>.</button>
-        <button id='numpad-del'>
-          <img src="img/backspace.png" width="24" height="21">
-        </button>
-      </div>
-    </footer>
-  </div>
+    <div id='leftpane'>
+      <content>
+        <table id='receipt'>
+          <!--<tr><td><button id="upscroll"></button><button id="downscroll"></button></td>-->
+          <thead>
+            <tr>
+              <th></th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Seagate 120GB</td>
+              <td>75 &euro;</td>
+              <td>2</td>
+              <td>150 &euro;</td>
+            </tr>
+            <tr class="selected">
+              <td>AMD Athlon XP 2200+</td>
+              <td>180 &euro;</td>
+              <td>1</td>
+              <td>180 &euro;</td>
+            </tr>
+            <tr>
+              <td>Foobar</td>
+              <td>1800 &euro;</td>
+              <td>10</td>
+              <td>18000 &euro;</td>
+            </tr>
+          </tbody>
+        </table>
+      </content>
+      <footer>
+        <ul id='amounts'>
+          <li> Subtotal: <span class="amount">0 &euro;</span></li>
+          <li> Taxes: <span class="amount">0 &euro;</span></li>
+          <li> Total: <span class="amount">0 &euro;</span></li>
+        </ul>
+        <ul id='paypad'>
+        </ul>
+        <div class='numpad'>
+          <!--<button id="numpad-qty" class="numpad">Qty</button><br />-->
+          <!--<button id="numpad-disc" class="numpad">Disc</button><br />-->
+          <!--<button id="numpad-price" class="numpad">Price</button><br />-->
+          <!--<button id="numpad-codebar" class="numpad selected"></button><br />-->
+          <!--<button id='numpad-note' class="numpad">Note</button>-->
+          <!--<button id='numpad-minus' class="numpad">+/-</button>-->
+          <!--<button id='numpad-clear' class="numpad">Clear</button>-->
+          <button id='numpad-1'>1</button>
+          <button id='numpad-2'>2</button>
+          <button id='numpad-3'>3</button><br>
+          <button id='numpad-4'>4</button>
+          <button id='numpad-5'>5</button>
+          <button id='numpad-6'>6</button><br>
+          <button id='numpad-7'>7</button>
+          <button id='numpad-8'>8</button>
+          <button id='numpad-9'>9</button><br>
+          <button id='numpad-0'>0</button>
+          <button id='numpad-coma'>.</button>
+          <button id='numpad-del'>
+            <img src="img/backspace.png" width="24" height="21">
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div id='rightpane'>
+      <header>
+        <ol class="breadcrum">
+          <li>
+            <a href="#"><img src="img/home.png" class="homeimg"></a>
+            <img src="img/bc-arrow.png" class="bc-arrow">
+          </li>
+          <li><a href="#">Beverages</a><img src="img/bc-arrow.png" class="bc-arrow"></li>
+          <li><a href="#">Beers</a></li>
+        </ol>
+        <input class="searchbox" placeholder="Search Products">
+      </header>
+
+        <!--<div id='menu'></div>-->
+        <!--<div id='iconlist'>-->
+          <!--<ol id="selectable">-->
+          <!--</ol>-->
+        <!--</div>-->
+    </div>
+  </content>
 
 </body>
 </html>

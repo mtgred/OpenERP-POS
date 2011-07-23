@@ -4,7 +4,6 @@ body, html {
 body {
   padding: 0;
   margin: 0;
-  border: 0;
   background-color: #f0eeee;
   font-family: "Lucida Grande", Helvetica, Verdana, Arial;
   color: #555555;
@@ -18,24 +17,34 @@ table {
 td {
   border: 1px solid #e9eaec; }
 
+input {
+  color: #555555; }
+
 button {
   display: inline-block;
   cursor: pointer;
-  padding: 3px 15px;
-  color: black;
-  border: solid 1px black;
+  padding: 4px 12px;
+  font-size: 11px;
+  border: 1px solid #cacaca;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
-  background: #7f82ac;
-  background: -moz-linear-gradient(#b2b3d7, #7f82ac);
-  background: -webkit-gradient(linear, left top, left bottom, from(#b2b3d7), to(#7f82ac)); }
+  background: #e2e2e2;
+  background: -moz-linear-gradient(#f0f0f0, #e2e2e2);
+  background: -webkit-linear-gradient(#f0f0f0, #e2e2e2); }
+
+ul, ol {
+  padding: 0;
+  margin: 0; }
+
+li {
+  list-style-type: none; }
 
 #container {
   width: 100%;
   height: 100%; }
 
-header {
+#topheader {
   width: 100%;
   height: 56px;
   color: gray;
@@ -43,10 +52,16 @@ header {
   border-bottom: solid 1px black;
   background: #393939;
   background: -moz-linear-gradient(#7b7979, #393939);
-  background: -webkit-gradient(linear, left top, left bottom, from(#7b7979), to(#393939)); }
+  background: -webkit-linear-gradient(#7b7979, #393939); }
+  #topheader button {
+    color: black;
+    border: 1px solid black;
+    background: #7f82ac;
+    background: -moz-linear-gradient(#b2b3d7, #7f82ac);
+    background: -webkit-linear-gradient(#b2b3d7, #7f82ac); }
 
 #branding, #rightheader {
-  padding: 10px 12px; }
+  padding: 10px 11px; }
 
 #branding {
   float: left;
@@ -58,7 +73,7 @@ header {
 
 #steps {
   float: left;
-  padding: 11px 16px;
+  padding: 11px 15px;
   border-right: solid 1px #3b3b3b;
   vertical-align: top; }
   #steps label {
@@ -84,13 +99,13 @@ header {
   float: left; }
 
 #neworder-button {
-  width: 36px;
+  width: 32px;
   padding: 1px;
-  font-size: 24px; }
+  font-size: 23px; }
 
 #loggedas {
   float: right;
-  padding: 6px 12px;
+  padding: 6px 11px;
   text-align: center;
   color: white;
   border-left: 1px solid #373737; }
@@ -98,35 +113,34 @@ header {
     margin: 0 0 3px 0; }
 
 #leftpane {
-  float: left;
-  width: 446px;
+  display: inline-block;
+  width: 442px;
   min-height: 100%;
   position: relative;
   border-right: solid 1px #afafb6;
   background-color: white; }
   #leftpane content {
     overflow: auto;
-    padding-bottom: 333px;
+    padding-bottom: 318px;
     width: 100%; }
   #leftpane footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    margin-top: -333px;
-    height: 333px;
+    margin-top: -318px;
+    height: 318px;
     width: 100%;
-    background: #d1d1d1;
-    background: -moz-linear-gradient(#e5e5e5, #d1d1d1);
-    background: -webkit-gradient(linear, left top, left bottom, from(#e5e5e5), to(#d1d1d1)); }
+    background-color: #e0e0e0;
+    background-image: url(../img/headerbackground.jpg); }
 
 #receipt thead {
   background-color: #cccccc;
   background-image: url(../img/headerbackground.jpg);
   border: 0px;
   font-size: 13px; }
-  #receipt thead td {
+  #receipt thead th {
     text-align: center;
-    padding: 8px 0px; }
+    padding: 9px 0px; }
 #receipt td {
   width: 52px;
   padding: 6px;
@@ -135,11 +149,14 @@ header {
   #receipt td:first-child {
     width: 300px;
     text-align: left; }
+  #receipt td:last-child {
+    border-right: none; }
 #receipt tr.selected {
   background-color: #e9eaf2; }
   #receipt tr.selected td {
     border-top: 2px solid #d5d6e0;
     border-bottom: 1px solid #d5d6e0;
+    padding-top: 5px;
     color: #555555; }
 
 #amounts {
@@ -157,28 +174,77 @@ header {
     width: 100px; }
   #amounts span.amount {
     color: #666666;
-    font-size: 16px;
-    padding: 2px; }
+    font-size: 14px; }
 
 .numpad {
-  padding: 0 12px;
+  padding: 9px 11px;
   float: right;
   text-align: center; }
   .numpad button {
-    height: 54px;
-    width: 55px;
+    height: 52px;
+    width: 53px;
     margin: 0 -3px;
     font-size: 24px;
     font-weight: bold;
     vertical-align: middle;
     color: #555555;
-    border: 1px solid #cacaca;
-    border-top: 1px solid #efefef;
-    background: #e0e0e0;
-    background: -moz-linear-gradient(#eeeeee, #e0e0e0);
-    background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#e0e0e0)); }
+    border-top: 1px solid #efefef; }
     .numpad button:hover {
       color: white;
       background: #7f82ac;
       background: -moz-linear-gradient(#9d9fc5, #7f82ac);
-      background: -webkit-gradient(linear, left top, left bottom, from(#9d9fc5), to(#7f82ac)); }
+      background: -webkit-linear-gradient(#9d9fc5, #7f82ac); }
+
+#rightpane {
+  display: inline-block;
+  min-height: 100%;
+  vertical-align: top;
+  margin-left: -3px; }
+  #rightpane header {
+    padding: 0;
+    height: 34px;
+    border-bottom: 1px solid #cecbcb;
+    background: #d3d3d3;
+    background: -moz-linear-gradient(white, #d3d3d3);
+    background: -webkit-linear-gradient(white, #d3d3d3); }
+
+.breadcrum {
+  display: inline-block;
+  margin-top: 1px; }
+  .breadcrum li {
+    float: left;
+    display: inline-block; }
+  .breadcrum a {
+    float: left;
+    display: block;
+    height: 31px;
+    line-height: 31px;
+    padding: 0 10px;
+    text-shadow: #f7f7f7 0 1px 1px;
+    text-decoration: none;
+    color: #555555;
+    font-weight: bold; }
+    .breadcrum a:last-child {
+      padding-right: 15px;
+      border-right: 2px dotted #c5c5c5; }
+
+.homeimg {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle; }
+
+.bc-arrow {
+  height: 33px; }
+
+input.searchbox {
+  float: right;
+  width: 130px;
+  font-size: 12px;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  border: 1px solid #cecbcb;
+  padding: 3px 19px;
+  margin: 6px;
+  background: url("../img/search.png") no-repeat 5px;
+  background-color: white; }

@@ -2,7 +2,7 @@
 @mixin vertical-gradient($startColor: #555, $endColor: #333)
   background: $endColor
   background: -moz-linear-gradient($startColor, $endColor)
-  background: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor))
+  background: -webkit-linear-gradient($startColor, $endColor)
 
 @mixin radius($radius: 5px)
   -moz-border-radius: $radius
@@ -21,7 +21,6 @@ body, html
 body
   padding: 0
   margin: 0
-  border: 0
   background-color: #f0eeee
   font-family:  "Lucida Grande", Helvetica, Verdana, Arial
   color: #555
@@ -34,31 +33,44 @@ table
 
 td
   border: 1px solid #e9eaec
-  
+
+input
+  color: #555
+
 button
   display: inline-block
   cursor: pointer
-  padding: 3px 15px
-  color: black
-  border:  solid 1px black
+  padding: 4px 12px
+  font-size: 11px
+  border: 1px solid #cacaca
   @include radius(4px)
-  @include vertical-gradient(#b2b3d7, #7f82ac)
+  @include vertical-gradient(#f0f0f0, #e2e2e2)
+
+ul, ol
+  padding: 0
+  margin: 0
+
+li
+  list-style-type: none
 
 #container 
   width: 100%
   height: 100%
   
-header 
+#topheader 
   width: 100%
-  //height: 10%
   height: 56px
   color: gray
   border-top: solid 1px #d3d3d3
   border-bottom: solid 1px black
   @include vertical-gradient(#7b7979, #393939)
-  
+  button
+    color: black
+    border: 1px solid black
+    @include vertical-gradient(#b2b3d7, #7f82ac)
+
 #branding, #rightheader
-  padding: 10px 12px
+  padding: 10px 11px
   
 #branding 
   float: left
@@ -70,7 +82,7 @@ header
 
 #steps 
   float: left
-  padding: 11px 16px
+  padding: 11px 15px
   border-right: solid 1px #3b3b3b
   vertical-align: top
   label
@@ -100,9 +112,9 @@ header
   //float: left
 
 #neworder-button
-  width: 36px
+  width: 32px
   padding: 1px
-  font-size: 24px
+  font-size: 23px
 
 //#close-button 
   //cursor: pointer 
@@ -125,7 +137,7 @@ header
   
 #loggedas
   float: right  
-  padding: 6px 12px
+  padding: 6px 11px
   text-align: center
   color: white
   border-left: 1px solid  #373737
@@ -133,24 +145,26 @@ header
     margin: 0 0 3px 0
   
 #leftpane 
-  float: left
-  width: 446px
+  display: inline-block
+  width: 442px
   min-height: 100%
   position: relative
   border-right: solid 1px #afafb6
   background-color: white
   content
     overflow: auto
-    padding-bottom: 333px
+    padding-bottom: 318px
     width: 100%
   footer
     position: absolute
     bottom: 0
     left: 0
-    margin-top: -333px
-    height: 333px
+    margin-top: -318px
+    height: 318px
     width: 100%
-    @include vertical-gradient(#e5e5e5, #d1d1d1)
+    //@include vertical-gradient(#e5e5e5, #d1d1d1)
+    background-color: #e0e0e0
+    background-image: url(../img/headerbackground.jpg)
 
 #receipt 
   thead
@@ -158,9 +172,9 @@ header
     background-image: url(../img/headerbackground.jpg)
     border: 0px
     font-size: 13px
-    td
+    th
       text-align: center
-      padding: 8px 0px
+      padding: 9px 0px
   td
     width: 52px
     padding: 6px
@@ -169,11 +183,14 @@ header
     &:first-child
       width: 300px
       text-align: left
+    &:last-child
+      border-right: none
   tr.selected 
     background-color: #e9eaf2
     td
       border-top: 2px solid #d5d6e0
       border-bottom: 1px solid #d5d6e0
+      padding-top: 5px
       color: #555
 
 #amounts 
@@ -189,52 +206,27 @@ header
     display: inline-block
     padding: 8px
     width: 100px
-  span.amount 
+  span.amount
     color: #666
-    font-size: 16px
-    padding: 2px
+    font-size: 14px
 
 .numpad 
-  padding: 0 12px
+  padding: 9px 11px 
   float: right
   text-align: center
   button
-    height: 54px
-    width: 55px
+    height: 52px
+    width: 53px
     margin: 0 -3px
     font-size: 24px
     font-weight: bold
     vertical-align: middle
     color: #555
-    border: 1px solid #cacaca
     border-top: 1px solid #efefef
-    @include vertical-gradient(#eee, #e0e0e0)
     &:hover
       color: white
       @include vertical-gradient(#9d9fc5, #7f82ac)
 
-//#pads, #paysummary 
-  //margin: 0px
-  
-//#pads 
-  ////padding: 10px 10px 17px 10px
-  
-//#paysummary
-  //padding:  10px 10px 15px 10px
-  
-//.numpad.selected, .numpad .selected  
-  //@include vertical-gradient(#9d9fc5, #7f82ac)
-  
-//.numpad.ui-state-hover > span 
-  //color: #ffffff !important
-  
-//.b-top-white 
-  //border-top: solid 1px white
-
-//#options 
-  //width: 100%
-  //height: 30%
-  
 //#paypad 
   //float: left
   //text-align: left
@@ -268,10 +260,56 @@ header
   //line-height: 1
   //overflow: hidden
 
-//#rightpane 
-  //float: right
-  //height: 90%
+#rightpane 
+  display: inline-block
+  min-height: 100%
+  vertical-align: top
+  margin-left: -3px
+  header
+    padding: 0
+    height: 34px
+    border-bottom: 1px solid #cecbcb
+    @include vertical-gradient(#fff, #d3d3d3)
 
+.breadcrum
+  display: inline-block
+  margin-top: 1px
+  li
+    float: left 
+    display: inline-block
+  a
+    float: left
+    display: block
+    height: 31px
+    line-height: 31px
+    padding: 0 10px
+    text-shadow: #F7F7F7 0 1px 1px
+    text-decoration: none
+    color: #555
+    font-weight: bold
+    &:last-child
+      padding-right: 15px
+      border-right: 2px dotted #c5c5c5
+
+.homeimg
+  width: 20px
+  height: 20px
+  vertical-align: middle
+
+.bc-arrow
+  height: 33px
+
+input.searchbox
+  float: right
+  width: 130px
+  font-size: 12px
+  @include radius(12px)
+  border: 1px solid #cecbcb
+  padding: 3px 19px
+  margin: 6px
+  background: url('../img/search.png') no-repeat 5px
+  background-color: white
+  
 //#selectable .ui-selecting
   //background: #9d9fc5 
 
@@ -303,43 +341,8 @@ header
   //color: #555
   //@include vertical-gradient(#fff, #eee)
   
-//#breadcrumbs 
-  //padding-left: 8px 
-
 //#menu 
   //height: auto
-  
-//#searchzone 
-  //padding: 5px 10px
-  //vertical-align: middle
-  //color: #555
-  //border-bottom: solid 1px #cecbcb
-  //@include vertical-gradient(#fff, #eee)
-
-//#searchimg, #backspaceimg 
-  //vertical-align: middle
-  //width: 14px
-  //height: 14px
-  //padding: 0px
-  //margin: 0px
-  //border: 0px
-  //margin-right: -5px
-  
-//#searchimg 
-  //margin-top: 2px
-  
-//#backspaceimg 
-  //display: none
-  
-//#keyboard
-  //vertical-align: middle
-  //@include radius(10px)
-  //margin-left: 10px
-  //width: 88%
-  //height: 20px
-  //border: solid 1px #cecbcb
-  //border-left: 0px
-  //border-right: 0px
   
 //#iconlist
   //padding: 10px 0px 0px 7px
@@ -351,43 +354,6 @@ header
   //top: 10px
   //left: 10px  
 
-//.breadcrumbs-normal , .breadcrumbs-normal.ui-state-hover, .breadcrumbs-normal.ui-state-hover.ui-state-active 
-  //vertical-align: top
-  //margin: 0px -1px 0px 0px
-  //font-size: 1em
-  //border-top: solid 1px #ededed
-  //border-bottom: solid 1px #b3b3b3
-  //padding:  4px 8px
-  //@include vertical-gradient(#eee, #ddd)
-  
-//.breadcrumbs-first, .breadcrumbs-first.ui-state-active, .breadcrumbs-first.ui-state-hover 
-  //font-size: 1em
-  //border-right: 0px
-  //margin-right: -6px
-  //padding:  4px 8px
-  
-//.breadcrumbs-last, .breadcrumbs-last.ui-state-hover, .breadcrumbs-last.ui-state-hover.ui-state-active 
-  //font-size: 1em
-  //background-image: url(../img/bc-bg-last.jpg)
-  //vertical-align: top
-  //border-top: solid 1px #c5c5c5
-  //border-left: 0px
-  //border-right: 0px
-  //padding:  4px 8px
-  //margin-top: 1px
-  
-//.breadcrumbs-last span, img.red-dot 
-  //float: left
-  
-//img.bc-before-last, img.red-dot 
-  //text-align: left
-  //padding: 0px
-  //margin: 0px
-  //border: 0px
-  
-//img.red-dot 
-  //padding-top: 12px
-  
 //#menu button, #menu button .ui-state-hover, #menu button .ui-state-hover.ui-state-active
   //border: 0px
   //margin: 2px 3px
