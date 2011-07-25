@@ -69,11 +69,13 @@ li
     border: 1px solid black
     @include vertical-gradient(#b2b3d7, #7f82ac)
 
-#branding, #rightheader
+#branding, #steps, #rightheader
+  float: left
+  overflow: hidden
+  height: 35px
   padding: 10px 11px
   
 #branding 
-  float: left
   border-right: 1px solid #373737
   text-align: center
   img
@@ -81,7 +83,6 @@ li
     width: 116px
 
 #steps 
-  float: left
   padding: 11px 15px
   border-right: solid 1px #3b3b3b
   vertical-align: top
@@ -103,9 +104,6 @@ li
   .ui-button, .ui-button-text-only 
     height: 30px
     margin: 0 -4px
-
-#rightheader 
-  float: left
 
 #orderstack, #neworder-button
   //margin-left: 10px
@@ -152,7 +150,6 @@ li
   border-right: solid 1px #afafb6
   background-color: white
   content
-    overflow: auto
     padding-bottom: 318px
     width: 100%
   footer
@@ -323,7 +320,14 @@ input.searchbox
   div
     width: 110px
     height: 100px
-  
+
+#login-form
+  label, input
+    display: block
+  input
+    margin: 4px 0 12px
+    padding: 4px
+    width: 96%
   
 //#selectable .ui-selecting
   //background: #9d9fc5 
