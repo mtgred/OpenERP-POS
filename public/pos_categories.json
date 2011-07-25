@@ -1,1 +1,0 @@
-[{"parent_id":[1,"CPU"],"child_id":[],"name":"AMD","id":5},{"parent_id":false,"child_id":[5,4],"name":"CPU","id":1},{"parent_id":false,"child_id":[],"name":"Hard Disk","id":2},{"parent_id":false,"child_id":[],"name":"Input Device","id":3},{"parent_id":[1,"CPU"],"child_id":[],"name":"Intel","id":4}]
