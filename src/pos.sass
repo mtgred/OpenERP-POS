@@ -37,7 +37,11 @@ td
 input
   color: #555
 
-button
+a
+  text-decoration: none
+  color: #555
+
+button, a.button
   display: inline-block
   cursor: pointer
   padding: 4px 12px
@@ -170,7 +174,7 @@ li
     font-size: 13px
     th
       text-align: center
-      padding: 9px 0px
+      padding: 8px 0px
   td
     width: 52px
     padding: 6px
@@ -263,37 +267,33 @@ li
   margin-left: -3px
   header
     padding: 0
-    height: 34px
+    height: 33px
     border-bottom: 1px solid #cecbcb
     @include vertical-gradient(#fff, #d3d3d3)
 
 .breadcrum
-  display: inline-block
-  margin-top: 1px
   li
     float: left 
-    display: inline-block
+    line-height: 33px
+    height: 33px
+    &:last-child
+      padding-right: 2px
+      border-right: 1px solid #c5c5c5
   a
-    float: left
-    display: block
-    height: 31px
-    line-height: 31px
-    padding: 0 10px
+    display: inline-block
+    padding: 0 9px 0 8px
+    vertical-align: top
     text-shadow: #F7F7F7 0 1px 1px
-    text-decoration: none
     color: #555
     font-weight: bold
-    &:last-child
-      padding-right: 15px
-      border-right: 2px dotted #c5c5c5
+
+.bc-arrow
+  height: 33px
 
 .homeimg
   width: 20px
   height: 20px
-  vertical-align: middle
-
-.bc-arrow
-  height: 33px
+  margin: 6px 0 
 
 input.searchbox
   float: right
