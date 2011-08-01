@@ -117,7 +117,7 @@
       </ol>
       <input class="searchbox" placeholder="Search Products">
     </header>
-    <% if(categories.length) { %>
+
     <div id="categories">
       <h4>Categories:</h4>
       <ol>
@@ -126,18 +126,16 @@
         <% }); %>
       </ol>
     </div>
-    <% } %>
   </script>
 
   <script type="text/template" id="product-template">
-    <ol id="products">
-      <% _.each(tracks, function(track) { %>
-      <li>
-        <div class="product-img"></div>
-        <div class="product-name"></div>
-      </li>
-      <% }); %>
-    </ol>
+    <a href="#">
+      <div class="product-img">
+        <img src="data:image/gif;base64,<%= img %>">
+        <span class="price-tag"><%= list_price %> &euro;</span>
+      </div>
+      <div class="product-name"><%= name %></div>
+    </a>
   </script>
 
 </body>

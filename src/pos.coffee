@@ -12,19 +12,22 @@ class Store
 class Pos
   constructor: ->
     @session.session_login 'pos', 'admin', 'admin', =>
-      $.when(@fetch('pos.category', ['name', 'parent_id', 'child_id']), @fetch('product.product', ['name', 'list_price', 'pos_categ_id', 'taxes_id', 'img'], [['pos_categ_id', '!=', 'false']])).then ->
-      for c in @store.get('pos.category')
-        @categories[c.id] = id: c.id, name: c.name, children: c.child_id,
-        parent: c.parent_id[0], ancestors: [c.id], subtree: [c.id]
-      for id, c of @categories
-        @current_category = c
-        @build_ancestors(c.parent)
-        @build_subtree(c)
-      @categories[0] =
-        ancestors: []
-        children: c.id for c in @store.get('pos.category') when not c.parent_id[0]?
-        subtree: c.id for c in @store.get('pos.category')
-      @ready.resolve()
+      $.when(
+        @fetch('pos.category', ['name', 'parent_id', 'child_id']),
+        @fetch('product.product', ['name', 'list_price', 'pos_categ_id', 'taxes_id', 'img'], [['pos_categ_id', '!=', 'false']])
+      ).then =>
+        for c in @store.get('pos.category')
+          @categories[c.id] = id: c.id, name: c.name, children: c.child_id,
+          parent: c.parent_id[0], ancestors: [c.id], subtree: [c.id]
+        for id, c of @categories
+          @current_category = c
+          @build_ancestors(c.parent)
+          @build_subtree(c)
+        @categories[0] =
+          ancestors: []
+          children: c.id for c in @store.get('pos.category') when not c.parent_id[0]?
+          subtree: c.id for c in @store.get('pos.category')
+        @ready.resolve()
   ready: $.Deferred()
   session: new db.base.Session('DEBUG')
   store: new Store
@@ -49,35 +52,43 @@ $ ->
   $('#rightpane').width($(window).width() - 445)
   $(window).resize -> $('#rightpane').width($(window).width() - 445)
 
-  #class Product extends Backbone.Model
+  class ProductView extends Backbone.View
+    tagName: 'li'
+    className: 'product'
+    template: _.template $('#product-template').html()
+    render: -> $(@el).html(@template @model.toJSON())
 
-  #class Products extends Backbone.Collection
-    #model: Product
-    #collection: pos.store.get('product.product')
+  class ProductListView extends Backbone.View
+    tagName: 'ol'
+    initialize: -> @collection.bind('reset', @render)
+    render: =>
+      $(@el).empty()
+      @collection.each (product) => $(@el).append (new ProductView model: product).render()
+      $('#rightpane').append @el
 
-  #class ProductView extends Backbone.View
-    #template: _.template $('#product-template').html()
-    #initialize: ->
-    #render: ->
-
-  class window.CategoryView extends Backbone.View
+  class CategoryView extends Backbone.View
     template: _.template $('#category-template').html()
-    render: (id) ->
+    render: (ancestors, children) ->
       $(@el).html @template
-        breadcrumb: pos.categories[id] for id in pos.categories[id].ancestors
-        categories: pos.categories[id] for id in pos.categories[id].children
+        breadcrumb: pos.categories[c] for c in ancestors
+        categories: pos.categories[c] for c in children
 
   class App extends Backbone.Router
     routes:
       '': 'category'
       'category/:id': 'category'
-      'payment': 'payment'
-      'receipt': 'receipt'
+      #'payment': 'payment'
+      #'receipt': 'receipt'
     initialize: ->
-      @categoryView = new CategoryView()
-    category: (id = 0) -> $('#rightpane').empty().append(@categoryView.render id)
-    payment: ->
-    receipt: ->
+      @categoryView = new CategoryView
+      @productList = new Backbone.Collection
+      @productListView = new ProductListView(collection: @productList)
+    category: (id = 0) ->
+      c = pos.categories[id]
+      $('#rightpane').empty().prepend(@categoryView.render c.ancestors, c.children)
+      @productList.reset(p for p in pos.store.get('product.product') when p.pos_categ_id[0] in c.subtree)
+    #payment: ->
+    #receipt: ->
 
   pos.ready.then ->
     pos.app = new App

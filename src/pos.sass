@@ -9,7 +9,7 @@
   -webkit-border-radius: $radius
   border-radius: $radius
 
-@mixin box-shadow($bsval: 0px 0px 0.83em #333)
+@mixin box-shadow($bsval: 0px 1px 4px #777)
   -moz-box-shadow: $bsval
   -webkit-box-shadow: $bsval
   -box-shadow: $bsval
@@ -267,21 +267,21 @@ li
   margin-left: -3px
   header
     padding: 0
-    height: 33px
+    height: 32px
     border-bottom: 1px solid #cecbcb
     @include vertical-gradient(#fff, #d3d3d3)
 
 .breadcrum
   li
     float: left 
-    line-height: 33px
-    height: 33px
+    line-height: 32px
+    height: 32px
     &:last-child
-      padding-right: 2px
+      padding-right: 3px
       border-right: 1px solid #c5c5c5
   a
     display: inline-block
-    padding: 0 9px 0 8px
+    padding: 0 9px
     vertical-align: top
     text-shadow: #F7F7F7 0 1px 1px
     color: #555
@@ -291,14 +291,13 @@ li
   height: 33px
 
 .homeimg
-  width: 20px
-  height: 20px
+  width: 19px
+  height: 19px
   margin: 6px 0 
 
 input.searchbox
   float: right
   width: 130px
-  font-size: 12px
   @include radius(12px)
   border: 1px solid #cecbcb
   padding: 3px 19px
@@ -316,10 +315,36 @@ input.searchbox
   li
     display: inline-block
 
-#products
-  div
-    width: 110px
-    height: 100px
+.product
+  vertical-align: top
+  display: inline-block
+  font-size: 11px
+  margin: 5px
+  max-width: 120px
+  border: 1px solid lightgray
+  @include radius(4px)
+  @include box-shadow()
+
+.product-img
+  position: relative
+  width: 120px
+  height: 100px
+  background: white
+  img
+    vertical-align: middle
+
+.price-tag
+  position: absolute
+  top: 3px
+  right: 3px
+  vertical-align: top
+  color: white
+  background: #7F82AC
+  padding: 2px 4px
+  @include radius(3px)
+
+.product-name
+  padding: 2px
 
 #login-form
   label, input
