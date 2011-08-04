@@ -4,7 +4,8 @@
   <title>Point of Sale</title>
   <link rel="stylesheet" href="/point_of_sale/static/css/jquery-ui.css">
   <link rel="stylesheet" href="/point_of_sale/static/css/pos.css">
-  <script src="/base/static/src/js/base.js"></script>
+  <script src="/base/static/src/js/boot.js"></script>
+  <script src="/base/static/src/js/core.js"></script>
   <script src="/base/static/src/js/chrome.js"></script>
   <script src="/base/static/src/js/data.js"></script>
   <script src="/base/static/src/js/dates.js"></script>
@@ -25,7 +26,7 @@
       <img src="/point_of_sale/static/img/steps-arrow.png">
       <input type="radio" id="radio3" name="radio" /><label for="radio3">Receipt</label>
     </div>			
-    <div id='rightheader'>
+   <div id='rightheader'>
       <div id='orderstack'></div>
       <button id="neworder-button">+</button>
     </div>
@@ -39,35 +40,14 @@
     <div id='leftpane'>
       <content>
         <table id='receipt'>
-          <!--<tr><td><button id="upscroll"></button><button id="downscroll"></button></td>-->
           <thead>
             <tr>
-              <th></th>
-              <th>Price</th>
-              <th>Qty</th>
-              <th>Total</th>
+              <td>Product</td>
+              <td>Price</td>
+              <td>Qty</td>
+              <td>Total</td>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Seagate 120GB</td>
-              <td>75 &euro;</td>
-              <td>2</td>
-              <td>150 &euro;</td>
-            </tr>
-            <tr class="selected">
-              <td>AMD Athlon XP 2200+</td>
-              <td>180 &euro;</td>
-              <td>1</td>
-              <td>180 &euro;</td>
-            </tr>
-            <tr>
-              <td>Foobar</td>
-              <td>1800 &euro;</td>
-              <td>10</td>
-              <td>18000 &euro;</td>
-            </tr>
-          </tbody>
         </table>
       </content>
       <footer>
@@ -136,6 +116,13 @@
       </div>
       <div class="product-name"><%= name %></div>
     </a>
+  </script>
+
+  <script type="text/template" id="orderline-template">
+    <td><%= name %></td>
+    <td><%= list_price %> &euro;</td>
+    <td><%= quantity %></td>
+    <td><%= list_price * quantity %> &euro;</td>
   </script>
 
 </body>

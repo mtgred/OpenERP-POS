@@ -49,14 +49,16 @@ window.pos = new Pos
 
 $ ->
   $('#steps').buttonset() # jQuery UI buttonset
-  $('#rightpane').width($(window).width() - 445)
-  $(window).resize -> $('#rightpane').width($(window).width() - 445)
+  $('#rightpane').width($(window).width() - 443)
+  $(window).resize -> $('#rightpane').width($(window).width() - 443)
 
   class ProductView extends Backbone.View
     tagName: 'li'
     className: 'product'
     template: _.template $('#product-template').html()
     render: -> $(@el).html(@template @model.toJSON())
+    events: { 'click a': 'addToReceipt' }
+    addToReceipt: => pos.order.insert @model
 
   class ProductListView extends Backbone.View
     tagName: 'ol'
@@ -65,6 +67,38 @@ $ ->
       $(@el).empty()
       @collection.each (product) => $(@el).append (new ProductView model: product).render()
       $('#rightpane').append @el
+
+  class OrderlineView extends Backbone.View
+    tagName: 'tr'
+    template: _.template $('#orderline-template').html()
+    initialize: -> @model.bind('change', @render)
+    events: { 'click': 'select' }
+    render: => $(@el).html(@template @model.toJSON())
+    select: ->
+      $('tr.selected').removeClass('selected')
+      $(@el).addClass 'selected'
+
+  class Orderline extends Backbone.Model
+    initialize: -> @set quantity: 0
+
+  class Order extends Backbone.Collection
+    total: 0
+    insert: (product) ->
+      @add(new Orderline product.toJSON()) if not @get(product.id)
+      o = @get(product.id)
+      o.set(quantity: (o.get('quantity') + 1))
+      @total += product.get 'price'
+
+  class OrderView extends Backbone.View
+    tagName: 'tbody'
+    initialize: ->
+      @collection.bind('add', @addLine)
+      @collection.bind('reset', @render)
+      $('#receipt').append @el
+    addLine: (orderline) => $(@el).append (new OrderlineView model: orderline).render()
+    render: =>
+      $(@el).empty()
+      @collection.each (orderline) => @addline orderline
 
   class CategoryView extends Backbone.View
     template: _.template $('#category-template').html()
@@ -83,6 +117,8 @@ $ ->
       @categoryView = new CategoryView
       @productList = new Backbone.Collection
       @productListView = new ProductListView(collection: @productList)
+      pos.order = new Order
+      @orderView = new OrderView(collection: pos.order)
     category: (id = 0) ->
       c = pos.categories[id]
       $('#rightpane').empty().prepend(@categoryView.render c.ancestors, c.children)

@@ -117,15 +117,16 @@
   })();
   window.pos = new Pos;
   $(function() {
-    var App, CategoryView, ProductListView, ProductView;
+    var App, CategoryView, Order, OrderView, Orderline, OrderlineView, ProductListView, ProductView;
     $('#steps').buttonset();
-    $('#rightpane').width($(window).width() - 445);
+    $('#rightpane').width($(window).width() - 443);
     $(window).resize(function() {
-      return $('#rightpane').width($(window).width() - 445);
+      return $('#rightpane').width($(window).width() - 443);
     });
     ProductView = (function() {
       __extends(ProductView, Backbone.View);
       function ProductView() {
+        this.addToReceipt = __bind(this.addToReceipt, this);
         ProductView.__super__.constructor.apply(this, arguments);
       }
       ProductView.prototype.tagName = 'li';
@@ -133,6 +134,12 @@
       ProductView.prototype.template = _.template($('#product-template').html());
       ProductView.prototype.render = function() {
         return $(this.el).html(this.template(this.model.toJSON()));
+      };
+      ProductView.prototype.events = {
+        'click a': 'addToReceipt'
+      };
+      ProductView.prototype.addToReceipt = function() {
+        return pos.order.insert(this.model);
       };
       return ProductView;
     })();
@@ -156,6 +163,86 @@
         return $('#rightpane').append(this.el);
       };
       return ProductListView;
+    })();
+    OrderlineView = (function() {
+      __extends(OrderlineView, Backbone.View);
+      function OrderlineView() {
+        this.render = __bind(this.render, this);
+        OrderlineView.__super__.constructor.apply(this, arguments);
+      }
+      OrderlineView.prototype.tagName = 'tr';
+      OrderlineView.prototype.template = _.template($('#orderline-template').html());
+      OrderlineView.prototype.initialize = function() {
+        return this.model.bind('change', this.render);
+      };
+      OrderlineView.prototype.events = {
+        'click': 'select'
+      };
+      OrderlineView.prototype.render = function() {
+        return $(this.el).html(this.template(this.model.toJSON()));
+      };
+      OrderlineView.prototype.select = function() {
+        $('tr.selected').removeClass('selected');
+        return $(this.el).addClass('selected');
+      };
+      return OrderlineView;
+    })();
+    Orderline = (function() {
+      __extends(Orderline, Backbone.Model);
+      function Orderline() {
+        Orderline.__super__.constructor.apply(this, arguments);
+      }
+      Orderline.prototype.initialize = function() {
+        return this.set({
+          quantity: 0
+        });
+      };
+      return Orderline;
+    })();
+    Order = (function() {
+      __extends(Order, Backbone.Collection);
+      function Order() {
+        Order.__super__.constructor.apply(this, arguments);
+      }
+      Order.prototype.total = 0;
+      Order.prototype.insert = function(product) {
+        var o;
+        if (!this.get(product.id)) {
+          this.add(new Orderline(product.toJSON()));
+        }
+        o = this.get(product.id);
+        o.set({
+          quantity: o.get('quantity') + 1
+        });
+        return this.total += product.get('price');
+      };
+      return Order;
+    })();
+    OrderView = (function() {
+      __extends(OrderView, Backbone.View);
+      function OrderView() {
+        this.render = __bind(this.render, this);
+        this.addLine = __bind(this.addLine, this);
+        OrderView.__super__.constructor.apply(this, arguments);
+      }
+      OrderView.prototype.tagName = 'tbody';
+      OrderView.prototype.initialize = function() {
+        this.collection.bind('add', this.addLine);
+        this.collection.bind('reset', this.render);
+        return $('#receipt').append(this.el);
+      };
+      OrderView.prototype.addLine = function(orderline) {
+        return $(this.el).append((new OrderlineView({
+          model: orderline
+        })).render());
+      };
+      OrderView.prototype.render = function() {
+        $(this.el).empty();
+        return this.collection.each(__bind(function(orderline) {
+          return this.addline(orderline);
+        }, this));
+      };
+      return OrderView;
     })();
     CategoryView = (function() {
       __extends(CategoryView, Backbone.View);
@@ -200,8 +287,12 @@
       App.prototype.initialize = function() {
         this.categoryView = new CategoryView;
         this.productList = new Backbone.Collection;
-        return this.productListView = new ProductListView({
+        this.productListView = new ProductListView({
           collection: this.productList
+        });
+        pos.order = new Order;
+        return this.orderView = new OrderView({
+          collection: pos.order
         });
       };
       App.prototype.category = function(id) {

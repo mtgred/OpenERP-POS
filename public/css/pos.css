@@ -68,7 +68,7 @@ li {
   float: left;
   overflow: hidden;
   height: 35px;
-  padding: 10px 11px; }
+  padding: 10px; }
 
 #branding {
   border-right: 1px solid #373737;
@@ -107,7 +107,7 @@ li {
 
 #loggedas {
   float: right;
-  padding: 6px 11px;
+  padding: 5px 8px;
   text-align: center;
   color: white;
   border-left: 1px solid #373737; }
@@ -116,7 +116,7 @@ li {
 
 #leftpane {
   display: inline-block;
-  width: 442px;
+  width: 440px;
   min-height: 100%;
   position: relative;
   border-right: solid 1px #afafb6;
@@ -138,8 +138,9 @@ li {
   background-color: #cccccc;
   background-image: url(../img/headerbackground.jpg);
   border: 0px;
-  font-size: 13px; }
-  #receipt thead th {
+  font-size: 13px;
+  width: 440px; }
+  #receipt thead td {
     text-align: center;
     padding: 8px 0px; }
 #receipt td {
@@ -149,6 +150,7 @@ li {
   text-align: right; }
   #receipt td:first-child {
     width: 300px;
+    padding: 6px;
     text-align: left; }
   #receipt td:last-child {
     border-right: none; }
@@ -245,10 +247,10 @@ input.searchbox {
   background-color: white; }
 
 #categories {
-  padding: 4px 6px;
   border-bottom: 1px solid #cecbcb; }
   #categories h4 {
-    display: inline; }
+    display: inline-block;
+    margin: 8px 6px; }
   #categories ol {
     display: inline; }
   #categories li {
@@ -272,14 +274,13 @@ input.searchbox {
   position: relative;
   width: 120px;
   height: 100px;
-  background: white; }
-  .product-img img {
-    vertical-align: middle; }
+  background: white;
+  text-align: center; }
 
 .price-tag {
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 2px;
+  right: 2px;
   vertical-align: top;
   color: white;
   background: #7f82ac;
@@ -289,7 +290,7 @@ input.searchbox {
   border-radius: 3px; }
 
 .product-name {
-  padding: 2px; }
+  padding: 3px; }
 
 #login-form label, #login-form input {
   display: block; }
