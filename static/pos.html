@@ -2,31 +2,31 @@
 <html>
 <head>
   <title>Point of Sale</title>
-  <link rel="stylesheet" href="/point_of_sale/static/css/jquery-ui.css">
-  <link rel="stylesheet" href="/point_of_sale/static/css/pos.css">
+  <link rel="stylesheet" href="/point_of_sale2/static/css/jquery-ui.css">
+  <link rel="stylesheet" href="/point_of_sale2/static/css/pos.css">
   <script src="/base/static/src/js/boot.js"></script>
   <script src="/base/static/src/js/core.js"></script>
   <script src="/base/static/src/js/chrome.js"></script>
   <script src="/base/static/src/js/data.js"></script>
   <script src="/base/static/src/js/dates.js"></script>
-  <script src="/point_of_sale/static/js/jquery-1.6.2.min.js"></script>
-  <script src="/point_of_sale/static/js/jquery-ui.min.js"></script>
-  <script src="/point_of_sale/static/js/underscore-1.1.7.min.js"></script>
-  <script src="/point_of_sale/static/js/json2.js"></script>
-  <script src="/point_of_sale/static/js/backbone-0.5.1.min.js"></script>
-  <script src="/point_of_sale/static/js/pos.js"></script>
+  <script src="/point_of_sale2/static/lib/jquery-1.6.2.min.js"></script>
+  <script src="/point_of_sale2/static/lib/jquery-ui.min.js"></script>
+  <script src="/point_of_sale2/static/lib/underscore-1.1.7.min.js"></script>
+  <script src="/point_of_sale2/static/lib/json2.js"></script>
+  <script src="/point_of_sale2/static/lib/backbone-0.5.1.min.js"></script>
+  <script src="/point_of_sale2/static/js/pos.js"></script>
 </head>
 <body>
   <header id="topheader">
-    <div id="branding"><img src="/point_of_sale/static/img/logo.png" /></div>
+    <div id="branding"><img src="/point_of_sale2/static/img/logo.png" /></div>
     <div id='steps'>
       <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">Products</label>
-      <img src="/point_of_sale/static/img/steps-arrow.png">
+      <img src="/point_of_sale2/static/img/steps-arrow.png">
       <input type="radio" id="radio2" name="radio" /><label for="radio2">Payment</label>
-      <img src="/point_of_sale/static/img/steps-arrow.png">
+      <img src="/point_of_sale2/static/img/steps-arrow.png">
       <input type="radio" id="radio3" name="radio" /><label for="radio3">Receipt</label>
     </div>			
-   <div id='rightheader'>
+    <div id='rightheader'>
       <div id='orderstack'></div>
       <button id="neworder-button">+</button>
     </div>
@@ -52,9 +52,9 @@
       </content>
       <footer>
         <ul id='amounts'>
-          <li> Subtotal: <span class="amount">0 &euro;</span></li>
-          <li> Taxes: <span class="amount">0 &euro;</span></li>
-          <li> Total: <span class="amount">0 &euro;</span></li>
+          <li> Subtotal: <span id="subtotal">0</span> &euro;</li>
+          <li> Tax: <span id="tax">0</span> &euro;</li>
+          <li> Total: <span id="total">0</span> &euro;</li>
         </ul>
         <ul id='paypad'>
         </ul>
@@ -71,7 +71,7 @@
           <button id='numpad-0'>0</button>
           <button id='numpad-coma'>.</button>
           <button id='numpad-del'>
-            <img src="/point_of_sale/static/img/backspace.png" width="24" height="21">
+            <img src="/point_of_sale2/static/img/backspace.png" width="24" height="21">
           </button>
         </div>
       </footer>
@@ -86,11 +86,11 @@
     <header>
       <ol class="breadcrum">
         <li>
-          <a href="#"><img src="/point_of_sale/static/img/home.png" class="homeimg"></a>
+          <a href="#"><img src="/point_of_sale2/static/img/home.png" class="homeimg"></a>
         </li>
         <% _.each(breadcrumb, function(category) { %>
           <li>
-            <img src="/point_of_sale/static/img/bc-arrow.png" class="bc-arrow">
+            <img src="/point_of_sale2/static/img/bc-arrow.png" class="bc-arrow">
             <a href="#category/<%= category.id %>"><%= category.name %></a>
           </li>
         <% }); %>

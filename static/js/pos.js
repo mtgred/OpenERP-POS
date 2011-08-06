@@ -31,55 +31,8 @@
   })();
   Pos = (function() {
     function Pos() {
-      this.session.session_login('pos', 'admin', 'admin', __bind(function() {
-        return $.when(this.fetch('pos.category', ['name', 'parent_id', 'child_id']), this.fetch('product.product', ['name', 'list_price', 'pos_categ_id', 'taxes_id', 'img'], [['pos_categ_id', '!=', 'false']])).then(__bind(function() {
-          var c, id, _i, _len, _ref, _ref2;
-          _ref = this.store.get('pos.category');
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            c = _ref[_i];
-            this.categories[c.id] = {
-              id: c.id,
-              name: c.name,
-              children: c.child_id,
-              parent: c.parent_id[0],
-              ancestors: [c.id],
-              subtree: [c.id]
-            };
-          }
-          _ref2 = this.categories;
-          for (id in _ref2) {
-            c = _ref2[id];
-            this.current_category = c;
-            this.build_ancestors(c.parent);
-            this.build_subtree(c);
-          }
-          this.categories[0] = {
-            ancestors: [],
-            children: (function() {
-              var _j, _len2, _ref3, _results;
-              _ref3 = this.store.get('pos.category');
-              _results = [];
-              for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
-                c = _ref3[_j];
-                if (!(c.parent_id[0] != null)) {
-                  _results.push(c.id);
-                }
-              }
-              return _results;
-            }).call(this),
-            subtree: (function() {
-              var _j, _len2, _ref3, _results;
-              _ref3 = this.store.get('pos.category');
-              _results = [];
-              for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
-                c = _ref3[_j];
-                _results.push(c.id);
-              }
-              return _results;
-            }).call(this)
-          };
-          return this.ready.resolve();
-        }, this));
+      this.build_tree = __bind(this.build_tree, this);      this.session.session_login('pos', 'admin', 'admin', __bind(function() {
+        return $.when(this.fetch('pos.category', ['name', 'parent_id', 'child_id']), this.fetch('product.product', ['name', 'list_price', 'pos_categ_id', 'taxes_id', 'img'], [['pos_categ_id', '!=', 'false']])).then(this.build_tree);
       }, this));
     }
     Pos.prototype.ready = $.Deferred();
@@ -96,6 +49,54 @@
       }, cb);
     };
     Pos.prototype.categories = {};
+    Pos.prototype.build_tree = function() {
+      var c, id, _i, _len, _ref, _ref2;
+      _ref = this.store.get('pos.category');
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        c = _ref[_i];
+        this.categories[c.id] = {
+          id: c.id,
+          name: c.name,
+          children: c.child_id,
+          parent: c.parent_id[0],
+          ancestors: [c.id],
+          subtree: [c.id]
+        };
+      }
+      _ref2 = this.categories;
+      for (id in _ref2) {
+        c = _ref2[id];
+        this.current_category = c;
+        this.build_ancestors(c.parent);
+        this.build_subtree(c);
+      }
+      this.categories[0] = {
+        ancestors: [],
+        children: (function() {
+          var _j, _len2, _ref3, _results;
+          _ref3 = this.store.get('pos.category');
+          _results = [];
+          for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
+            c = _ref3[_j];
+            if (!(c.parent_id[0] != null)) {
+              _results.push(c.id);
+            }
+          }
+          return _results;
+        }).call(this),
+        subtree: (function() {
+          var _j, _len2, _ref3, _results;
+          _ref3 = this.store.get('pos.category');
+          _results = [];
+          for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
+            c = _ref3[_j];
+            _results.push(c.id);
+          }
+          return _results;
+        }).call(this)
+      };
+      return this.ready.resolve();
+    };
     Pos.prototype.build_ancestors = function(parent) {
       if (parent != null) {
         this.current_category.ancestors.unshift(parent);
@@ -138,7 +139,8 @@
       ProductView.prototype.events = {
         'click a': 'addToReceipt'
       };
-      ProductView.prototype.addToReceipt = function() {
+      ProductView.prototype.addToReceipt = function(e) {
+        e.preventDefault();
         return pos.order.insert(this.model);
       };
       return ProductView;
@@ -167,19 +169,24 @@
     OrderlineView = (function() {
       __extends(OrderlineView, Backbone.View);
       function OrderlineView() {
-        this.render = __bind(this.render, this);
+        this.update = __bind(this.update, this);
         OrderlineView.__super__.constructor.apply(this, arguments);
       }
       OrderlineView.prototype.tagName = 'tr';
       OrderlineView.prototype.template = _.template($('#orderline-template').html());
       OrderlineView.prototype.initialize = function() {
-        return this.model.bind('change', this.render);
+        return this.model.bind('change', this.update);
       };
       OrderlineView.prototype.events = {
         'click': 'select'
       };
+      OrderlineView.prototype.update = function() {
+        $(this.el).hide();
+        return this.render();
+      };
       OrderlineView.prototype.render = function() {
-        return $(this.el).html(this.template(this.model.toJSON()));
+        this.select();
+        return $(this.el).html(this.template(this.model.toJSON())).fadeIn();
       };
       OrderlineView.prototype.select = function() {
         $('tr.selected').removeClass('selected');
@@ -194,7 +201,7 @@
       }
       Orderline.prototype.initialize = function() {
         return this.set({
-          quantity: 0
+          quantity: 1
         });
       };
       return Orderline;
@@ -204,17 +211,16 @@
       function Order() {
         Order.__super__.constructor.apply(this, arguments);
       }
-      Order.prototype.total = 0;
       Order.prototype.insert = function(product) {
         var o;
         if (!this.get(product.id)) {
-          this.add(new Orderline(product.toJSON()));
+          return this.add(new Orderline(product.toJSON()));
+        } else {
+          o = this.get(product.id);
+          return o.set({
+            quantity: o.get('quantity') + 1
+          });
         }
-        o = this.get(product.id);
-        o.set({
-          quantity: o.get('quantity') + 1
-        });
-        return this.total += product.get('price');
       };
       return Order;
     })();
@@ -228,19 +234,23 @@
       OrderView.prototype.tagName = 'tbody';
       OrderView.prototype.initialize = function() {
         this.collection.bind('add', this.addLine);
-        this.collection.bind('reset', this.render);
+        this.collection.bind('change', this.render);
         return $('#receipt').append(this.el);
       };
-      OrderView.prototype.addLine = function(orderline) {
-        return $(this.el).append((new OrderlineView({
-          model: orderline
+      OrderView.prototype.addLine = function(line) {
+        $(this.el).append((new OrderlineView({
+          model: line
         })).render());
+        return this.render();
       };
-      OrderView.prototype.render = function() {
-        $(this.el).empty();
-        return this.collection.each(__bind(function(orderline) {
-          return this.addline(orderline);
-        }, this));
+      OrderView.prototype.render = function(e) {
+        var total;
+        total = pos.order.reduce((function(sum, x) {
+          return sum + x.get('quantity') * x.get('list_price');
+        }), 0);
+        $('#subtotal').html((total / 1.21).toFixed(2)).hide().fadeIn();
+        $('#tax').html((total / 1.21 * 0.21).toFixed(2)).hide().fadeIn();
+        return $('#total').html(total).hide().fadeIn();
       };
       return OrderView;
     })();
@@ -286,9 +296,9 @@
       };
       App.prototype.initialize = function() {
         this.categoryView = new CategoryView;
-        this.productList = new Backbone.Collection;
+        pos.productList = new Backbone.Collection;
         this.productListView = new ProductListView({
-          collection: this.productList
+          collection: pos.productList
         });
         pos.order = new Order;
         return this.orderView = new OrderView({
@@ -302,7 +312,7 @@
         }
         c = pos.categories[id];
         $('#rightpane').empty().prepend(this.categoryView.render(c.ancestors, c.children));
-        return this.productList.reset((function() {
+        return pos.productList.reset((function() {
           var _i, _len, _ref, _ref2, _results;
           _ref = pos.store.get('product.product');
           _results = [];
