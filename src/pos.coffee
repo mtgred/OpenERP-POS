@@ -125,7 +125,12 @@ $ ->
     category: (id = 0) ->
       c = pos.categories[id]
       $('#rightpane').empty().prepend(@categoryView.render c.ancestors, c.children)
-      pos.productList.reset(p for p in pos.store.get('product.product') when p.pos_categ_id[0] in c.subtree)
+      products = pos.store.get('product.product').filter (p) -> p.pos_categ_id[0] in c.subtree
+      pos.productList.reset products
+      $('.searchbox').keyup ->
+        s = $(@).val().toLowerCase()
+        m = if s then products.filter (p) -> ~p.name.toLowerCase().indexOf s else products
+        pos.productList.reset m
     #payment: ->
     #receipt: ->
 

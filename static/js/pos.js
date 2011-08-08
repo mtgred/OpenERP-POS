@@ -306,24 +306,25 @@
         });
       };
       App.prototype.category = function(id) {
-        var c, p;
+        var c, products;
         if (id == null) {
           id = 0;
         }
         c = pos.categories[id];
         $('#rightpane').empty().prepend(this.categoryView.render(c.ancestors, c.children));
-        return pos.productList.reset((function() {
-          var _i, _len, _ref, _ref2, _results;
-          _ref = pos.store.get('product.product');
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            p = _ref[_i];
-            if (_ref2 = p.pos_categ_id[0], __indexOf.call(c.subtree, _ref2) >= 0) {
-              _results.push(p);
-            }
-          }
-          return _results;
-        })());
+        products = pos.store.get('product.product').filter(function(p) {
+          var _ref;
+          return _ref = p.pos_categ_id[0], __indexOf.call(c.subtree, _ref) >= 0;
+        });
+        pos.productList.reset(products);
+        return $('.searchbox').keyup(function() {
+          var m, s;
+          s = $(this).val().toLowerCase();
+          m = s ? products.filter(function(p) {
+            return ~p.name.toLowerCase().indexOf(s);
+          }) : products;
+          return pos.productList.reset(m);
+        });
       };
       return App;
     })();
