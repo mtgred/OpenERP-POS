@@ -120,10 +120,6 @@
   $(function() {
     var App, CategoryView, Order, OrderView, Orderline, OrderlineView, ProductListView, ProductView;
     $('#steps').buttonset();
-    $('#rightpane').width($(window).width() - 443);
-    $(window).resize(function() {
-      return $('#rightpane').width($(window).width() - 443);
-    });
     ProductView = (function() {
       __extends(ProductView, Backbone.View);
       function ProductView() {
@@ -152,6 +148,7 @@
         ProductListView.__super__.constructor.apply(this, arguments);
       }
       ProductListView.prototype.tagName = 'ol';
+      ProductListView.prototype.className = 'product-list';
       ProductListView.prototype.initialize = function() {
         return this.collection.bind('reset', this.render);
       };
@@ -235,7 +232,7 @@
       OrderView.prototype.initialize = function() {
         this.collection.bind('add', this.addLine);
         this.collection.bind('change', this.render);
-        return $('#receipt').append(this.el);
+        return $('#receipt table').append(this.el);
       };
       OrderView.prototype.addLine = function(line) {
         $(this.el).append((new OrderlineView({
@@ -311,7 +308,7 @@
           id = 0;
         }
         c = pos.categories[id];
-        $('#rightpane').empty().prepend(this.categoryView.render(c.ancestors, c.children));
+        $('#rightpane').html(this.categoryView.render(c.ancestors, c.children));
         products = pos.store.get('product.product').filter(function(p) {
           var _ref;
           return _ref = p.pos_categ_id[0], __indexOf.call(c.subtree, _ref) >= 0;

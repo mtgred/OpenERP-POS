@@ -17,7 +17,7 @@
   <script src="/point_of_sale2/static/js/pos.js"></script>
 </head>
 <body>
-  <header id="topheader">
+  <div id="topheader">
     <div id="branding"><img src="/point_of_sale2/static/img/logo.png" /></div>
     <div id='steps'>
       <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">Products</label>
@@ -34,12 +34,13 @@
       <p>Minh Tran</p>
       <button>Logout</button>
     </div>  
-  </header>
-  <content>
+  </div>
+
+  <div id="content">
 
     <div id='leftpane'>
-      <content>
-        <table id='receipt'>
+      <div id='receipt'>
+        <table>
           <thead>
             <tr>
               <td>Product</td>
@@ -49,7 +50,7 @@
             </tr>
           </thead>
         </table>
-      </content>
+      </div>
       <footer>
         <ul id='amounts'>
           <li> Subtotal: <span id="subtotal">0</span> &euro;</li>
@@ -77,10 +78,8 @@
       </footer>
     </div>
 
-    <div id='rightpane'>
-    </div>
-
-  </content>
+    <div id='rightpane'></div>
+  </div>
 
   <script type="text/template" id="category-template" >
     <header>

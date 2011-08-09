@@ -49,8 +49,6 @@ window.pos = new Pos
 
 $ ->
   $('#steps').buttonset() # jQuery UI buttonset
-  $('#rightpane').width($(window).width() - 443)
-  $(window).resize -> $('#rightpane').width($(window).width() - 443)
 
   class ProductView extends Backbone.View
     tagName: 'li'
@@ -62,6 +60,7 @@ $ ->
 
   class ProductListView extends Backbone.View
     tagName: 'ol'
+    className: 'product-list'
     initialize: -> @collection.bind('reset', @render)
     render: =>
       $(@el).empty()
@@ -95,7 +94,7 @@ $ ->
     initialize: ->
       @collection.bind('add', @addLine)
       @collection.bind('change', @render)
-      $('#receipt').append @el
+      $('#receipt table').append @el
     addLine: (line) => $(@el).append (new OrderlineView model: line).render(); @render()
     render: (e) =>
       total = pos.order.reduce ((sum, x) -> sum + x.get('quantity') * x.get('list_price')), 0
@@ -124,7 +123,7 @@ $ ->
       @orderView = new OrderView(collection: pos.order)
     category: (id = 0) ->
       c = pos.categories[id]
-      $('#rightpane').empty().prepend(@categoryView.render c.ancestors, c.children)
+      $('#rightpane').html(@categoryView.render c.ancestors, c.children)
       products = pos.store.get('product.product').filter (p) -> p.pos_categ_id[0] in c.subtree
       pos.productList.reset products
       $('.searchbox').keyup ->

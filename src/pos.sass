@@ -25,7 +25,6 @@ body
   font-family:  "Lucida Grande", Helvetica, Verdana, Arial
   color: #555
   font-size: 12px
-  overflow: hidden
 
 table
   border-spacing: 0
@@ -87,7 +86,7 @@ li
     width: 116px
 
 #steps 
-  padding: 11px 15px
+  padding: 10px 15px
   border-right: solid 1px #3b3b3b
   vertical-align: top
   label
@@ -146,45 +145,52 @@ li
   p
     margin: 0 0 3px 0
   
+#content
+  width: 100%
+  position: absolute
+  top: 56px
+  bottom: 0
+
 #leftpane 
-  display: inline-block
+  height: 100%
   width: 440px
-  min-height: 100%
   position: relative
   border-right: solid 1px #afafb6
   background-color: white
-  content
-    padding-bottom: 318px
-    width: 100%
   footer
     position: absolute
     bottom: 0
     left: 0
-    margin-top: -318px
-    height: 318px
     width: 100%
     background-color: #e0e0e0
     background-image: url(../img/headerbackground.jpg)
 
 #receipt 
+  width: 100%
+  position: absolute
+  top: 0
+  bottom: 259px
+  overflow: auto
   thead
     background-color: #ccc
     background-image: url(../img/headerbackground.jpg)
     border: 0px
-    font-size: 13px
+    font-size: 12px
     width: 440px
     td
       text-align: center
       padding: 8px 0px
   td
-    width: 52px
-    padding: 6px
+    padding: 5px
     font-size: 12px
     text-align: right
+    min-width: 42px
+    white-space: nowrap
     &:first-child
       width: 300px
-      padding: 6px
+      padding: 5px
       text-align: left
+      text-overflow: ellipsis
     &:last-child
       border-right: none
   tr.selected 
@@ -207,9 +213,6 @@ li
     display: inline-block
     padding: 8px
     width: 29%
-    //color: #666
-    //font-size: 14px
-  //span.amount
 
 .numpad 
   padding: 9px 11px 
@@ -262,15 +265,24 @@ li
   //overflow: hidden
 
 #rightpane 
-  display: inline-block
-  min-height: 100%
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 441px
+  right: 0
+  height: 100%
   vertical-align: top
-  margin-left: -3px
   header
     padding: 0
     height: 32px
     border-bottom: 1px solid #cecbcb
     @include vertical-gradient(#fff, #d3d3d3)
+
+.product-list
+  overflow: auto
+  position: absolute
+  top: 65px
+  bottom: 0
 
 .breadcrum
   li
