@@ -2,7 +2,8 @@
 @mixin vertical-gradient($startColor: #555, $endColor: #333)
   background: $endColor
   background: -moz-linear-gradient($startColor, $endColor)
-  background: -webkit-linear-gradient($startColor, $endColor)
+  background: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor))
+  //background: -webkit-linear-gradient($startColor, $endColor)
 
 @mixin radius($radius: 5px)
   -moz-border-radius: $radius
@@ -180,14 +181,15 @@ li
     td
       text-align: center
       padding: 8px 0px
+      min-width: 40px
   td
     padding: 5px
     font-size: 12px
     text-align: right
-    min-width: 42px
+    min-width: 40px
     white-space: nowrap
     &:first-child
-      width: 300px
+      width: 320px
       padding: 5px
       text-align: left
       text-overflow: ellipsis
@@ -281,7 +283,7 @@ li
 .product-list
   overflow: auto
   position: absolute
-  top: 65px
+  top: 67px
   bottom: 0
 
 .breadcrum
@@ -311,7 +313,7 @@ li
 input.searchbox
   float: right
   width: 130px
-  @include radius(12px)
+  @include radius(11px)
   border: 1px solid #cecbcb
   padding: 3px 19px
   margin: 6px
@@ -322,7 +324,7 @@ input.searchbox
   border-bottom: 1px solid #cecbcb
   h4
     display: inline-block
-    margin: 8px 6px
+    margin: 9px 5px
   ol
     display: inline
   li

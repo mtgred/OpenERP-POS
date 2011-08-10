@@ -34,7 +34,7 @@ button, a.button {
   border-radius: 4px;
   background: #e2e2e2;
   background: -moz-linear-gradient(#f0f0f0, #e2e2e2);
-  background: -webkit-linear-gradient(#f0f0f0, #e2e2e2); }
+  background: -webkit-gradient(linear, left top, left bottom, from(#f0f0f0), to(#e2e2e2)); }
 
 ul, ol {
   padding: 0;
@@ -55,13 +55,13 @@ li {
   border-bottom: solid 1px black;
   background: #393939;
   background: -moz-linear-gradient(#7b7979, #393939);
-  background: -webkit-linear-gradient(#7b7979, #393939); }
+  background: -webkit-gradient(linear, left top, left bottom, from(#7b7979), to(#393939)); }
   #topheader button {
     color: black;
     border: 1px solid black;
     background: #7f82ac;
     background: -moz-linear-gradient(#b2b3d7, #7f82ac);
-    background: -webkit-linear-gradient(#b2b3d7, #7f82ac); }
+    background: -webkit-gradient(linear, left top, left bottom, from(#b2b3d7), to(#7f82ac)); }
 
 #branding, #steps, #rightheader {
   float: left;
@@ -147,15 +147,16 @@ li {
     width: 440px; }
     #receipt thead td {
       text-align: center;
-      padding: 8px 0px; }
+      padding: 8px 0px;
+      min-width: 40px; }
   #receipt td {
     padding: 5px;
     font-size: 12px;
     text-align: right;
-    min-width: 42px;
+    min-width: 40px;
     white-space: nowrap; }
     #receipt td:first-child {
-      width: 300px;
+      width: 320px;
       padding: 5px;
       text-align: left;
       text-overflow: ellipsis; }
@@ -199,7 +200,7 @@ li {
       color: white;
       background: #7f82ac;
       background: -moz-linear-gradient(#9d9fc5, #7f82ac);
-      background: -webkit-linear-gradient(#9d9fc5, #7f82ac); }
+      background: -webkit-gradient(linear, left top, left bottom, from(#9d9fc5), to(#7f82ac)); }
 
 #rightpane {
   position: absolute;
@@ -215,12 +216,12 @@ li {
     border-bottom: 1px solid #cecbcb;
     background: #d3d3d3;
     background: -moz-linear-gradient(white, #d3d3d3);
-    background: -webkit-linear-gradient(white, #d3d3d3); }
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#d3d3d3)); }
 
 .product-list {
   overflow: auto;
   position: absolute;
-  top: 65px;
+  top: 67px;
   bottom: 0; }
 
 .breadcrum li {
@@ -249,9 +250,9 @@ li {
 input.searchbox {
   float: right;
   width: 130px;
-  -moz-border-radius: 12px;
-  -webkit-border-radius: 12px;
-  border-radius: 12px;
+  -moz-border-radius: 11px;
+  -webkit-border-radius: 11px;
+  border-radius: 11px;
   border: 1px solid #cecbcb;
   padding: 3px 19px;
   margin: 6px;
@@ -262,7 +263,7 @@ input.searchbox {
   border-bottom: 1px solid #cecbcb; }
   #categories h4 {
     display: inline-block;
-    margin: 8px 6px; }
+    margin: 9px 5px; }
   #categories ol {
     display: inline; }
   #categories li {
