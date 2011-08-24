@@ -11,7 +11,7 @@ class Store
 
 class Pos
   constructor: ->
-    @session.session_login 'pos', 'admin', 'admin', =>
+    @session.session_login 'web-trunk-pos', 'admin', 'admin', =>
       $.when(
         @fetch('pos.category', ['name','parent_id','child_id']),
         @fetch('product.product', ['name','list_price','pos_categ_id','taxes_id','img'], [['pos_categ_id','!=','false']])
@@ -23,6 +23,8 @@ class Pos
     cb = cb || (result) => @store.set osvModel, result['records']
     @session.rpc '/base/dataset/search_read', model:osvModel, fields:fields, domain:domain, cb
   categories: {}
+  mode: "quantity"
+  buffer: "0"
   build_tree: =>
     for c in @store.get('pos.category')
       @categories[c.id] = id:c.id, name:c.name, children:c.child_id,
@@ -50,6 +52,21 @@ window.pos = new Pos
 $ ->
   $('#steps').buttonset() # jQuery UI buttonset
 
+  $(".input-button").click ->
+    if @dataset.char == '<-'
+      pos.buffer = pos.buffer.slice(0, -1) | "0"
+    else
+      pos.buffer += @dataset.char
+    params = {}
+    params[pos.mode] = parseFloat(pos.buffer)
+    pos.order.selected.set(params)
+  $(".mode-button").click ->
+    $('.selected-mode').removeClass('selected-mode')
+    $(@).addClass('selected-mode')
+    pos.mode = @dataset.mode
+    pos.buffer = "0"
+  $('#numpad-delete').click -> pos.order.remove pos.order.selected
+
   class ProductView extends Backbone.View
     tagName: 'li'
     className: 'product'
@@ -70,16 +87,22 @@ $ ->
   class OrderlineView extends Backbone.View
     tagName: 'tr'
     template: _.template $('#orderline-template').html()
-    initialize: -> @model.bind('change', @update)
-    events: { 'click': 'select' }
-    update: => $(@el).hide(); @render()
-    render: -> @select(); $(@el).html(@template @model.toJSON()).fadeIn()
+    initialize: ->
+      @model.bind 'change', => $(@el).hide(); @render()
+      @model.bind 'remove', => $(@.el).remove()
+    events: { 'click': 'clickHandler' }
+    render: ->
+      @select(); $(@el).html(@template @model.toJSON()).fadeIn 500, ->
+        $('#receipt').scrollTop $(@).offset().top
+
+    clickHandler: -> pos.buffer = "0"; @select()
     select: ->
       $('tr.selected').removeClass('selected')
       $(@el).addClass 'selected'
+      pos.order.selected = @model
 
   class Orderline extends Backbone.Model
-    initialize: -> @set quantity: 1
+    initialize: -> @set quantity: 1, discount: 0; pos.buffer = "0"
 
   class Order extends Backbone.Collection
     insert: (product) ->
@@ -94,13 +117,14 @@ $ ->
     initialize: ->
       @collection.bind('add', @addLine)
       @collection.bind('change', @render)
+      @collection.bind('remove', @render)
       $('#receipt table').append @el
     addLine: (line) => $(@el).append (new OrderlineView model: line).render(); @render()
     render: (e) =>
-      total = pos.order.reduce ((sum, x) -> sum + x.get('quantity') * x.get('list_price')), 0
+      total = pos.order.reduce ((sum, x) -> sum + x.get('quantity') * x.get('list_price') * (1-x.get('discount')/100)), 0
       $('#subtotal').html((total/1.21).toFixed 2).hide().fadeIn()
       $('#tax').html((total/1.21*0.21).toFixed 2).hide().fadeIn()
-      $('#total').html(total).hide().fadeIn()
+      $('#total').html(total.toFixed 2).hide().fadeIn()
 
   class CategoryView extends Backbone.View
     template: _.template $('#category-template').html()

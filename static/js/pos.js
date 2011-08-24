@@ -31,7 +31,7 @@
   })();
   Pos = (function() {
     function Pos() {
-      this.build_tree = __bind(this.build_tree, this);      this.session.session_login('pos', 'admin', 'admin', __bind(function() {
+      this.build_tree = __bind(this.build_tree, this);      this.session.session_login('web-trunk-pos', 'admin', 'admin', __bind(function() {
         return $.when(this.fetch('pos.category', ['name', 'parent_id', 'child_id']), this.fetch('product.product', ['name', 'list_price', 'pos_categ_id', 'taxes_id', 'img'], [['pos_categ_id', '!=', 'false']])).then(this.build_tree);
       }, this));
     }
@@ -49,6 +49,8 @@
       }, cb);
     };
     Pos.prototype.categories = {};
+    Pos.prototype.mode = "quantity";
+    Pos.prototype.buffer = "0";
     Pos.prototype.build_tree = function() {
       var c, id, _i, _len, _ref, _ref2;
       _ref = this.store.get('pos.category');
@@ -120,6 +122,26 @@
   $(function() {
     var App, CategoryView, Order, OrderView, Orderline, OrderlineView, ProductListView, ProductView;
     $('#steps').buttonset();
+    $(".input-button").click(function() {
+      var params;
+      if (this.dataset.char === '<-') {
+        pos.buffer = pos.buffer.slice(0, -1) | "0";
+      } else {
+        pos.buffer += this.dataset.char;
+      }
+      params = {};
+      params[pos.mode] = parseFloat(pos.buffer);
+      return pos.order.selected.set(params);
+    });
+    $(".mode-button").click(function() {
+      $('.selected-mode').removeClass('selected-mode');
+      $(this).addClass('selected-mode');
+      pos.mode = this.dataset.mode;
+      return pos.buffer = "0";
+    });
+    $('#numpad-delete').click(function() {
+      return pos.order.remove(pos.order.selected);
+    });
     ProductView = (function() {
       __extends(ProductView, Backbone.View);
       function ProductView() {
@@ -166,28 +188,36 @@
     OrderlineView = (function() {
       __extends(OrderlineView, Backbone.View);
       function OrderlineView() {
-        this.update = __bind(this.update, this);
         OrderlineView.__super__.constructor.apply(this, arguments);
       }
       OrderlineView.prototype.tagName = 'tr';
       OrderlineView.prototype.template = _.template($('#orderline-template').html());
       OrderlineView.prototype.initialize = function() {
-        return this.model.bind('change', this.update);
+        this.model.bind('change', __bind(function() {
+          $(this.el).hide();
+          return this.render();
+        }, this));
+        return this.model.bind('remove', __bind(function() {
+          return $(this.el).remove();
+        }, this));
       };
       OrderlineView.prototype.events = {
-        'click': 'select'
-      };
-      OrderlineView.prototype.update = function() {
-        $(this.el).hide();
-        return this.render();
+        'click': 'clickHandler'
       };
       OrderlineView.prototype.render = function() {
         this.select();
-        return $(this.el).html(this.template(this.model.toJSON())).fadeIn();
+        return $(this.el).html(this.template(this.model.toJSON())).fadeIn(500, function() {
+          return $('#receipt').scrollTop($(this).offset().top);
+        });
+      };
+      OrderlineView.prototype.clickHandler = function() {
+        pos.buffer = "0";
+        return this.select();
       };
       OrderlineView.prototype.select = function() {
         $('tr.selected').removeClass('selected');
-        return $(this.el).addClass('selected');
+        $(this.el).addClass('selected');
+        return pos.order.selected = this.model;
       };
       return OrderlineView;
     })();
@@ -197,9 +227,11 @@
         Orderline.__super__.constructor.apply(this, arguments);
       }
       Orderline.prototype.initialize = function() {
-        return this.set({
-          quantity: 1
+        this.set({
+          quantity: 1,
+          discount: 0
         });
+        return pos.buffer = "0";
       };
       return Orderline;
     })();
@@ -232,6 +264,7 @@
       OrderView.prototype.initialize = function() {
         this.collection.bind('add', this.addLine);
         this.collection.bind('change', this.render);
+        this.collection.bind('remove', this.render);
         return $('#receipt table').append(this.el);
       };
       OrderView.prototype.addLine = function(line) {
@@ -243,11 +276,11 @@
       OrderView.prototype.render = function(e) {
         var total;
         total = pos.order.reduce((function(sum, x) {
-          return sum + x.get('quantity') * x.get('list_price');
+          return sum + x.get('quantity') * x.get('list_price') * (1 - x.get('discount') / 100);
         }), 0);
         $('#subtotal').html((total / 1.21).toFixed(2)).hide().fadeIn();
         $('#tax').html((total / 1.21 * 0.21).toFixed(2)).hide().fadeIn();
-        return $('#total').html(total).hide().fadeIn();
+        return $('#total').html(total.toFixed(2)).hide().fadeIn();
       };
       return OrderView;
     })();

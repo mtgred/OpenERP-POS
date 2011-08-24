@@ -137,7 +137,7 @@ li {
   width: 100%;
   position: absolute;
   top: 0;
-  bottom: 259px;
+  bottom: 271px;
   overflow: auto; }
   #receipt thead {
     background-color: #cccccc;
@@ -148,16 +148,17 @@ li {
     #receipt thead td {
       text-align: center;
       padding: 8px 0px;
-      min-width: 40px; }
+      min-width: 40px;
+      font-size: 12px; }
   #receipt td {
-    padding: 5px;
-    font-size: 12px;
+    padding: 6px 4px;
+    font-size: 11px;
     text-align: right;
     min-width: 40px;
     white-space: nowrap; }
     #receipt td:first-child {
       width: 320px;
-      padding: 5px;
+      padding: 6px;
       text-align: left;
       text-overflow: ellipsis; }
     #receipt td:last-child {
@@ -184,14 +185,13 @@ li {
     width: 29%; }
 
 .numpad {
-  padding: 9px 11px;
+  padding: 9px;
   float: right;
   text-align: center; }
   .numpad button {
-    height: 52px;
-    width: 53px;
+    height: 54px;
+    width: 54px;
     margin: 0 -3px;
-    font-size: 24px;
     font-weight: bold;
     vertical-align: middle;
     color: #555555;
@@ -201,6 +201,17 @@ li {
       background: #7f82ac;
       background: -moz-linear-gradient(#9d9fc5, #7f82ac);
       background: -webkit-gradient(linear, left top, left bottom, from(#9d9fc5), to(#7f82ac)); }
+  .numpad .selected-mode {
+    color: white;
+    background: #7f82ac;
+    background: -moz-linear-gradient(#9d9fc5, #7f82ac);
+    background: -webkit-gradient(linear, left top, left bottom, from(#9d9fc5), to(#7f82ac)); }
+
+.input-button {
+  font-size: 24px; }
+
+.mode-button, #numpad-delete {
+  font-size: 14px; }
 
 #rightpane {
   position: absolute;
@@ -221,7 +232,7 @@ li {
 .product-list {
   overflow: auto;
   position: absolute;
-  top: 67px;
+  top: 72px;
   bottom: 0; }
 
 .breadcrum li {
@@ -268,6 +279,10 @@ input.searchbox {
     display: inline; }
   #categories li {
     display: inline-block; }
+  #categories .button {
+    padding: 6px 12px;
+    margin: 4px 0;
+    font-size: 12px; }
 
 .product {
   vertical-align: top;
@@ -297,7 +312,7 @@ input.searchbox {
   vertical-align: top;
   color: white;
   background: #7f82ac;
-  padding: 2px 4px;
+  padding: 2px 5px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px; }

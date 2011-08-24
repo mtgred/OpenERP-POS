@@ -20,7 +20,8 @@
   <div id="topheader">
     <div id="branding"><img src="/point_of_sale2/static/img/logo.png" /></div>
     <div id='steps'>
-      <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">Products</label>
+      <input type="radio" id="radio1" name="radio" checked="checked" />
+      <label for="radio1">Products</label>
       <img src="/point_of_sale2/static/img/steps-arrow.png">
       <input type="radio" id="radio2" name="radio" /><label for="radio2">Payment</label>
       <img src="/point_of_sale2/static/img/steps-arrow.png">
@@ -45,6 +46,7 @@
             <tr>
               <td>Product</td>
               <td>Price</td>
+              <td>Disc (%)</td>
               <td>Qty</td>
               <td>Total</td>
             </tr>
@@ -60,28 +62,46 @@
         <ul id='paypad'>
         </ul>
         <div class='numpad'>
-          <button id='numpad-1'>1</button>
-          <button id='numpad-2'>2</button>
-          <button id='numpad-3'>3</button><br>
-          <button id='numpad-4'>4</button>
-          <button id='numpad-5'>5</button>
-          <button id='numpad-6'>6</button><br>
-          <button id='numpad-7'>7</button>
-          <button id='numpad-8'>8</button>
-          <button id='numpad-9'>9</button><br>
-          <button id='numpad-0'>0</button>
-          <button id='numpad-coma'>.</button>
-          <button id='numpad-del'>
+          <button class="input-button" data-char='1'>1</button>
+          <button class="input-button" data-char='2'>2</button>
+          <button class="input-button" data-char='3'>3</button>
+          <button class="mode-button selected-mode" data-mode='quantity'>Qty</button><br>
+          <button class="input-button" data-char='4'>4</button>
+          <button class="input-button" data-char='5'>5</button>
+          <button class="input-button" data-char='6'>6</button>
+          <button class="mode-button" data-mode='discount'>Disc</button><br>
+          <button class="input-button" data-char='7'>7</button>
+          <button class="input-button" data-char='8'>8</button>
+          <button class="input-button" data-char='9'>9</button>
+          <button class="mode-button" data-mode='list_price'>Price</button><br>
+          <button class="input-button" data-char='0'>0</button>
+          <button class="input-button" data-char='.'>.</button>
+          <button class="input-button" data-char='<-'>
             <img src="/point_of_sale2/static/img/backspace.png" width="24" height="21">
           </button>
+          <button id='numpad-delete'>Del</button>
         </div>
       </footer>
     </div>
 
-    <div id='rightpane'></div>
+    <div id='rightpane'>
+      <header>
+        <ol class="breadcrum">
+          <li>
+            <a href="#"><img src="/point_of_sale2/static/img/home.png" class="homeimg"></a>
+          </li>
+        </ol>
+        <input class="searchbox" placeholder="Search Products">
+      </header>
+
+      <div id="categories">
+        <h4>Categories:</h4>
+        <ol></ol>
+      </div>
+    </div>
   </div>
 
-  <script type="text/template" id="category-template" >
+  <script type="text/template" id="category-template">
     <header>
       <ol class="breadcrum">
         <li>
@@ -119,9 +139,10 @@
 
   <script type="text/template" id="orderline-template">
     <td><%= name %></td>
-    <td><%= list_price %> &euro;</td>
-    <td><%= quantity %></td>
-    <td><%= list_price * quantity %> &euro;</td>
+    <td><%= list_price.toFixed(2) %> &euro;</td>
+    <td><%= discount.toFixed(2) %></td>
+    <td><%= quantity.toFixed(0) %></td>
+    <td><%= (list_price * (1 - discount/100) * quantity).toFixed(2) %> &euro;</td>
   </script>
 
 </body>
