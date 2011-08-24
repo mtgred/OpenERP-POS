@@ -54,12 +54,17 @@ $ ->
 
   $(".input-button").click ->
     if @dataset.char == '<-'
-      pos.buffer = pos.buffer.slice(0, -1) | "0"
+      console.log pos.buffer
+      pos.buffer = pos.buffer.slice(0, -1) || "0"
+      console.log pos.buffer
+    else if @dataset.char == '+-'
+      pos.buffer = if pos.buffer[0] is '-' then pos.buffer.substr(1) else "-" + pos.buffer
     else
       pos.buffer += @dataset.char
-    params = {}
-    params[pos.mode] = parseFloat(pos.buffer)
-    pos.order.selected.set(params)
+    if pos.order.selected
+      params = {}
+      params[pos.mode] = parseFloat(pos.buffer)
+      pos.order.selected.set(params)
   $(".mode-button").click ->
     $('.selected-mode').removeClass('selected-mode')
     $(@).addClass('selected-mode')
@@ -92,7 +97,7 @@ $ ->
       @model.bind 'remove', => $(@.el).remove()
     events: { 'click': 'clickHandler' }
     render: ->
-      @select(); $(@el).html(@template @model.toJSON()).fadeIn 500, ->
+      @select(); $(@el).html(@template @model.toJSON()).fadeIn 400, ->
         $('#receipt').scrollTop $(@).offset().top
 
     clickHandler: -> pos.buffer = "0"; @select()
@@ -137,8 +142,6 @@ $ ->
     routes:
       '': 'category'
       'category/:id': 'category'
-      #'payment': 'payment'
-      #'receipt': 'receipt'
     initialize: ->
       @categoryView = new CategoryView
       pos.productList = new Backbone.Collection
@@ -150,12 +153,19 @@ $ ->
       $('#rightpane').html(@categoryView.render c.ancestors, c.children)
       products = pos.store.get('product.product').filter (p) -> p.pos_categ_id[0] in c.subtree
       pos.productList.reset products
-      $('.searchbox').keyup ->
+      $('.searchbox input').keyup ->
         s = $(@).val().toLowerCase()
-        m = if s then products.filter (p) -> ~p.name.toLowerCase().indexOf s else products
+        if s
+          m = products.filter (p) -> ~p.name.toLowerCase().indexOf s
+          $('.search-clear').fadeIn()
+        else
+          m = products
+          $('.search-clear').fadeOut()
         pos.productList.reset m
-    #payment: ->
-    #receipt: ->
+      $('.search-clear').click ->
+        pos.productList.reset products
+        $('.searchbox input').val('').focus()
+        $('.search-clear').fadeOut()
 
   pos.ready.then ->
     pos.app = new App

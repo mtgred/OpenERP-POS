@@ -125,13 +125,19 @@
     $(".input-button").click(function() {
       var params;
       if (this.dataset.char === '<-') {
-        pos.buffer = pos.buffer.slice(0, -1) | "0";
+        console.log(pos.buffer);
+        pos.buffer = pos.buffer.slice(0, -1) || "0";
+        console.log(pos.buffer);
+      } else if (this.dataset.char === '+-') {
+        pos.buffer = pos.buffer[0] === '-' ? pos.buffer.substr(1) : "-" + pos.buffer;
       } else {
         pos.buffer += this.dataset.char;
       }
-      params = {};
-      params[pos.mode] = parseFloat(pos.buffer);
-      return pos.order.selected.set(params);
+      if (pos.order.selected) {
+        params = {};
+        params[pos.mode] = parseFloat(pos.buffer);
+        return pos.order.selected.set(params);
+      }
     });
     $(".mode-button").click(function() {
       $('.selected-mode').removeClass('selected-mode');
@@ -206,7 +212,7 @@
       };
       OrderlineView.prototype.render = function() {
         this.select();
-        return $(this.el).html(this.template(this.model.toJSON())).fadeIn(500, function() {
+        return $(this.el).html(this.template(this.model.toJSON())).fadeIn(400, function() {
           return $('#receipt').scrollTop($(this).offset().top);
         });
       };
@@ -347,13 +353,24 @@
           return _ref = p.pos_categ_id[0], __indexOf.call(c.subtree, _ref) >= 0;
         });
         pos.productList.reset(products);
-        return $('.searchbox').keyup(function() {
+        $('.searchbox input').keyup(function() {
           var m, s;
           s = $(this).val().toLowerCase();
-          m = s ? products.filter(function(p) {
-            return ~p.name.toLowerCase().indexOf(s);
-          }) : products;
+          if (s) {
+            m = products.filter(function(p) {
+              return ~p.name.toLowerCase().indexOf(s);
+            });
+            $('.search-clear').fadeIn();
+          } else {
+            m = products;
+            $('.search-clear').fadeOut();
+          }
           return pos.productList.reset(m);
+        });
+        return $('.search-clear').click(function() {
+          pos.productList.reset(products);
+          $('.searchbox input').val('').focus();
+          return $('.search-clear').fadeOut();
         });
       };
       return App;

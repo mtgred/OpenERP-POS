@@ -74,12 +74,17 @@
           <button class="input-button" data-char='8'>8</button>
           <button class="input-button" data-char='9'>9</button>
           <button class="mode-button" data-mode='list_price'>Price</button><br>
+          <button class="input-button" id="numpad-minus" data-char='+-'>+/-</button>
           <button class="input-button" data-char='0'>0</button>
           <button class="input-button" data-char='.'>.</button>
+          <button class="mode-button">
+            <img src="/point_of_sale2/static/img/barcode.png">
+          </button></br>
+          <button id='numpad-delete'>Delete</button>
           <button class="input-button" data-char='<-'>
             <img src="/point_of_sale2/static/img/backspace.png" width="24" height="21">
           </button>
-          <button id='numpad-delete'>Del</button>
+          <button class="mode-button" id='numpad-note'>Note</button>
         </div>
       </footer>
     </div>
@@ -114,7 +119,10 @@
           </li>
         <% }); %>
       </ol>
-      <input class="searchbox" placeholder="Search Products">
+      <div class="searchbox">
+        <input placeholder="Search Products">
+        <img class="search-clear" src="/point_of_sale2/static/img/search_reset.gif">
+      </div>
     </header>
 
     <div id="categories">
